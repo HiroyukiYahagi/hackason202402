@@ -5,8 +5,6 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
-use App\Jobs\InvoieCreatingNotificationJob;
-use App\Jobs\NotPaymentPartnersNotificationJob;
 
 class Kernel extends ConsoleKernel
 {
@@ -16,7 +14,6 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\CreateAdminCommand::class
     ];
 
     /**
@@ -27,8 +24,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job(new InvoieCreatingNotificationJob())->monthlyOn(1, '12:00');
-        $schedule->job(new NotPaymentPartnersNotificationJob())->weeklyOn(1, '12:00');
     }
 
     /**
