@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * @property int $id
  * @property int $admin_id
@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Bot extends Model
 {
+    use SoftDeletes;
     /**
      * @var array
      */

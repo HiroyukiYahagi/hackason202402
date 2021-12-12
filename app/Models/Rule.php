@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * @property int $id
  * @property int $senario_id
@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Rule extends Model
 {
+    use SoftDeletes;
     /**
      * @var array
      */

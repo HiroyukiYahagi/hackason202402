@@ -19,6 +19,8 @@ class CreateAdminsTable extends Migration {
 			$table->softDeletes();
 			$table->string('email', 256)->nullable();
 			$table->string('password', 256)->nullable();
+			$table->string('remember_token', 256)->nullable();
+			$table->integer('role')->default(0);
 		});
 	}
 
