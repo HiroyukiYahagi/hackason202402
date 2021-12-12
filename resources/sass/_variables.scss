@@ -1,0 +1,25 @@
+//フォント
+$global-font-familyfont-family: “YakuHanJP”, “Yu Gothic Medium”, “游ゴシック Medium”, “Yu Gothic”, “游ゴシック“, YuGothic, “ヒラギノ角ゴ Pro W3”, “Hiragino Kaku Gothic Pro”, メイリオ, Meiryo, “arial”;
+
+//背景色
+$global-background: #fff;
+$global-primary-background: #9DB965;
+$global-secondary-background: #685f56;
+$global-muted-background: #F5F4EE;
+$global-danger-background: #9C2F27;
+
+//文字色
+$global-color: #666666;
+$global-emphasis-color: #333333;
+
+//文字サイズ
+$global-2xlarge-font-size: 1.6rem;
+$global-xlarge-font-size: 1.4rem;
+$global-large-font-size: 1.2rem;
+$global-medium-font-size: 1.1rem;
+$global-font-size: 15px;
+$global-small-font-size: 90%;
+
+$global-link-color: #9DB965;
+
+$container-xsmall-max-width: 640px;
