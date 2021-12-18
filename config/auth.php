@@ -49,7 +49,7 @@ return [
 
         'partner' => [
             'driver' => 'session',
-            'provider' => 'partners',
+            'provider' => 'admins',
         ],
 
     ],
@@ -76,11 +76,6 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
         ],
-
-        'partners' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Partner::class,
-        ],
     ],
 
     /*
@@ -103,13 +98,7 @@ return [
             'provider' => 'admins',
             'table' => 'password_resets',
             'expire' => 60,
-        ],
-
-        'partners' => [
-            'provider' => 'partners',
-            'table' => 'password_resets',
-            'expire' => 7,
-        ],
+        ]
 
     ],
 

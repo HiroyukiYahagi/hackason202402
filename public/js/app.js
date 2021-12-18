@@ -25113,6 +25113,41 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
  // loads the Icon plugin
 
 uikit__WEBPACK_IMPORTED_MODULE_0___default.a.use(uikit_dist_js_uikit_icons__WEBPACK_IMPORTED_MODULE_1___default.a);
+document.addEventListener('DOMContentLoaded', function () {
+  Array.prototype.forEach.call(document.querySelectorAll("form"), function (form) {
+    form.onkeypress = function (e) {
+      var key = e.keyCode || e.charCode || 0;
+
+      if (key == 13) {
+        e.preventDefault();
+      }
+    };
+
+    var checkAndEnable = function checkAndEnable() {
+      var selectable = true;
+      Array.prototype.forEach.call(form.querySelectorAll('*[required]'), function (input) {
+        if (input.value == null || input.value.length == 0) {
+          selectable = false;
+        }
+      });
+
+      if (selectable) {
+        Array.prototype.forEach.call(form.querySelectorAll(".only_required"), function (button) {
+          button.removeAttribute("disabled");
+        });
+      } else {
+        Array.prototype.forEach.call(form.querySelectorAll(".only_required"), function (button) {
+          button.setAttribute("disabled", true);
+        });
+      }
+    };
+
+    Array.prototype.forEach.call(form.querySelectorAll('*[required]'), function (input) {
+      input.onkeyup = checkAndEnable;
+    });
+    checkAndEnable();
+  });
+});
 
 /***/ }),
 
@@ -25134,8 +25169,8 @@ uikit__WEBPACK_IMPORTED_MODULE_0___default.a.use(uikit_dist_js_uikit_icons__WEBP
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/yutamatsumoto/biophilia/partners/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/yutamatsumoto/biophilia/partners/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/yahagihiroyuki/work/pet/05.coco_gourmet/10_src/bot/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/yahagihiroyuki/work/pet/05.coco_gourmet/10_src/bot/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -9,12 +9,16 @@
         {{ config('app.name', 'Laravel') }}
     </title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <script src="{{ asset('js/app.js') }}"></script>
+
+    @yield('top')
 </head>
 
 <body>
     @yield('main')
 
-    <script src="{{ asset('js/app.js') }}"></script>
+    
+    @yield('bottom')
 </body>
 
 </html>

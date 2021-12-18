@@ -18,6 +18,7 @@ class CreateBotsTable extends Migration {
 			$table->timestamps();
 			$table->softDeletes();
 			$table->string('name', 256)->nullable();
+			$table->string('hash', 256)->nullable();
 			$table->string('line_account_name', 256)->nullable();
 			$table->integer('admin_id')->nullable()->index('fk_bots_admin_id_idx');
 			$table->text('rich_menu', 16777215)->nullable();

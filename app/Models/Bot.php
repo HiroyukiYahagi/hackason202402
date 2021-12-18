@@ -23,7 +23,7 @@ class Bot extends Model
     /**
      * @var array
      */
-    protected $fillable = ['admin_id', 'created_at', 'updated_at', 'deleted_at', 'name', 'line_account_name', 'rich_menu'];
+    protected $fillable = ['admin_id', 'created_at', 'updated_at', 'deleted_at', 'name', 'line_account_name', 'rich_menu', 'hash'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

@@ -13,7 +13,7 @@ $tmp = [
     |
     */
 
-    'name' => env('APP_NAME', 'CoCo Partners'),
+    'name' => env('APP_NAME', 'Bot Controller'),
 
     /*
     |--------------------------------------------------------------------------

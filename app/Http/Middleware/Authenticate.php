@@ -14,4 +14,9 @@ class Authenticate extends Middleware
         $this->guards = $guards;
         return parent::handle($request, $next, ...$guards);
     }
+
+    protected function redirectTo($request, $guards=[])
+    {
+        return route('admin.login');
+    }
 }
