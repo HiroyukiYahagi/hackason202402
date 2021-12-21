@@ -13,8 +13,6 @@ class BotService
 {
 
   public function add($adminId) {
-
-    
     Validator::make([
       "admin_id" => $adminId
     ], [
@@ -26,7 +24,19 @@ class BotService
       "admin_id" => $adminId,
       "hash" => \Str::random(8)
     ]);
+    return $bot;
+  }
 
+  public function edit($id, $data) {
+    $bot = Bot::find($id);
+    
+    Validator::make(collect( $bot->toArray() )->merge($data)->toArray(), [
+      'admin_id' => 'required|exists:admins,id',
+    ])->validate();
+
+    $bot->fill($data);
+    $bot->save();
+    
     return $bot;
   }
 

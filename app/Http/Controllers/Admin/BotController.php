@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use \Auth;
 use App\Services\BotService;
+use App\Models\Bot;
 
 class BotController extends Controller
 {
@@ -20,5 +21,21 @@ class BotController extends Controller
         $admin = Auth::guard("admin")->user();
         $this->botService->add($admin->id);
         return back()->with("message", "新しいBOTを作成しました");
+    }
+
+    public function view(Request $request, Bot $bot){
+        $admin = Auth::guard("admin")->user();
+        return view("admin.bot.view", [
+            "bot" => $bot
+        ]);
+    }
+
+    public function edit(Request $request, Bot $bot){
+        $admin = Auth::guard("admin")->user();
+        $bot = $this->botService->edit( $bot->id, $request->all() );
+
+        return redirect()->route("admin.bots.edit", [
+            "bot" => $bot
+        ])->with("message", "更新しました。");
     }
 }
