@@ -25113,6 +25113,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
  // loads the Icon plugin
 
 uikit__WEBPACK_IMPORTED_MODULE_0___default.a.use(uikit_dist_js_uikit_icons__WEBPACK_IMPORTED_MODULE_1___default.a);
+window.UIkit = uikit__WEBPACK_IMPORTED_MODULE_0___default.a;
 document.addEventListener('DOMContentLoaded', function () {
   Array.prototype.forEach.call(document.querySelectorAll("form"), function (form) {
     form.onkeypress = function (e) {

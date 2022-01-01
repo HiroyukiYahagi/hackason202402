@@ -19,4 +19,7 @@ class Asset extends Model
      */
     protected $fillable = ['created_at', 'updated_at', 'deleted_at', 'path'];
 
+    public function getFullUrlAttribute(){
+        return \Storage::url($this->path);
+    }
 }

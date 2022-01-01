@@ -14,8 +14,8 @@
       <th class="uk-width-medium">action</th>
     </tr>
   </thead>
-  @foreach( $admin->bots as $bot )
   <tbody>
+  @foreach( $admin->bots as $bot )
     <tr>
       <td>
         {{ $bot->id }}
@@ -29,8 +29,8 @@
         </a>
       </td>
     </tr>
-  </tbody>
   @endforeach
+  </tbody>
 </table>
 
 <div class="uk-margin uk-text-right">

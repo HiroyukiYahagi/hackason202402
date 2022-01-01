@@ -12,8 +12,8 @@
     </div>
     @endif
     <div class="uk-width-expand">
-      <div class="uk-section">
-        <div class="uk-container">
+      <div class="uk-section uk-section-small">
+        <div class="uk-container uk-container-xlarge">
           @yield('content')
         </div>
       </div>

@@ -12,14 +12,18 @@ Route::namespace("Admin")->prefix('admin')->group( function() {
   Route::post('/edit', "IndexController@edit")->name("admin.edit");
 
 
+  Route::get('/bots', "BotController@index")->name("admin.bots.index");
   Route::post('/bots', "BotController@add")->name("admin.bots.add");
 
   Route::prefix('bots/{bot}')->group( function() {
     Route::get('/', "BotController@view")->name("admin.bots.view");
-    Route::post('/edit', "BotController@edit")->name("admin.bots.edit");
+    Route::get('/edit', "BotController@showEdit")->name("admin.bots.edit");
+    Route::post('/edit', "BotController@edit");
     Route::post('/delete', "BotController@delete")->name("admin.bots.delete");
 
-    Route::post('/senarios', "SenarioController@add")->name("admin.senarios.add");
+    Route::get('/senarios', "SenarioController@index")->name("admin.senarios.index");
+    Route::post('/senarios/add', "SenarioController@add")->name("admin.senarios.add");
+
     Route::prefix('senarios/{senario}')->group( function() {
       Route::get('/', "SenarioController@view")->name("admin.senarios.view");
       Route::post('/edit', "SenarioController@edit")->name("admin.senarios.edit");
@@ -49,7 +53,7 @@ Route::namespace("Admin")->prefix('admin')->group( function() {
   Route::prefix('assets')->group( function() {
     Route::get('/', "AssetController@index")->name("admin.assets.index");
     Route::post('/add', "AssetController@add")->name("admin.assets.view");
-    Route::post('/{asset}/delete', "AssetController@edit")->name("admin.assets.edit");
+    Route::post('/{asset}/delete', "AssetController@delete")->name("admin.assets.delete");
   });
 
 });

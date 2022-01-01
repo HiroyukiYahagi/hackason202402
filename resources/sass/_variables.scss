@@ -6,19 +6,22 @@ $global-background: #fff;
 $global-primary-background: #19B842;
 $global-secondary-background: #FC5040;
 $global-muted-background: #EFEFEF;
-$global-danger-background: #9C2F27;
+$global-danger-background: #CF0000;
 
 //文字色
 $global-color: #646464;
 $global-emphasis-color: #1F1F1F;
 
+$global-inverse-color: #F0F0F0;
+$inverse-global-color: #FFFFFF;
+$inverse-global-muted-color: #FFFFFF;
 //文字サイズ
 $global-2xlarge-font-size: 1.6rem;
 $global-xlarge-font-size: 1.4rem;
 $global-large-font-size: 1.2rem;
 $global-medium-font-size: 1.1rem;
 $global-font-size: 15px;
-$global-small-font-size: 90%;
+$global-small-font-size: 0.85rem;
 
 $global-link-color: #9DB965;
 
@@ -28,6 +31,7 @@ $base-heading-font-weight: 700;
 
 $container-xsmall-max-width: 640px;
 
+$base-hr-border: $global-emphasis-color;
 
 $navbar-nav-item-height: 64px;
 
