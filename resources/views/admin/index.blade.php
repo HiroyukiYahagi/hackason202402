@@ -10,7 +10,7 @@
   <thead>
     <tr>
       <th>#</th>
-      <th>Bot name</th>
+      <th>BOTの名前</th>
       <th class="uk-width-medium">action</th>
     </tr>
   </thead>

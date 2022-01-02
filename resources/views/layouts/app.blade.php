@@ -11,6 +11,11 @@
       @yield('sidebar')
     </div>
     @endif
+    @hasSection('subbar')
+    <div class="uk-width-medium">
+      @yield('subbar')
+    </div>
+    @endif
     <div class="uk-width-expand">
       <div class="uk-section uk-section-small">
         <div class="uk-container uk-container-xlarge">

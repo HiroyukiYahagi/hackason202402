@@ -24,7 +24,7 @@ class Account extends Model
     /**
      * @var array
      */
-    protected $fillable = ['bot_id', 'created_at', 'updated_at', 'deleted_at', 'hash', 'name', 'reply_token', 'blocked_at'];
+    protected $fillable = ['bot_id', 'senario_id', 'created_at', 'updated_at', 'deleted_at', 'hash', 'name', 'reply_token', 'blocked_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -32,6 +32,14 @@ class Account extends Model
     public function bot()
     {
         return $this->belongsTo('App\Models\Bot');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function senario()
+    {
+        return $this->belongsTo('App\Models\Senario');
     }
 
     /**

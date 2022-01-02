@@ -2,12 +2,12 @@
 $admin = \Auth::guard("admin")->user();
 $admin->load(["bots"])
 @endphp
-<div class="uk-background-primary uk-light" uk-height-viewport>
+<div class="uk-background-primary uk-light uk-box-shadow-small" uk-height-viewport>
   <div class="uk-padding-small">
     <form method="GET" action="{{route('admin.bots.index')}}">
       <select class="uk-select" name="bot_id" onchange="this.parentNode.submit()">
         @foreach( $admin->bots as $b )
-        <option value="{{ $b->id }}" {{ isset($bot) && $bot->id == $b->id ? 'selected' : null }}>{{ $b->name }}</option>
+        <option value="{{ $b->id }}" {{ $bot->id == $b->id ? 'selected' : null }}>{{ $b->name }}</option>
         @endforeach
       </select>
     </form>

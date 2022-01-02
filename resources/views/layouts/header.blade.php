@@ -1,4 +1,4 @@
-<nav class="uk-navbar-container uk-box-shadow-medium" uk-navbar>
+<nav class="uk-navbar-container uk-box-shadow-medium uk-background-white" uk-navbar>
     <div class="uk-navbar-center">
         <a class="uk-navbar-item uk-logo">
             <img class="uk-width-small" src="{{asset('images/logo.svg')}}" />

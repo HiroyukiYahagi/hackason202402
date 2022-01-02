@@ -51,6 +51,6 @@ class Bot extends Model
      */
     public function senarios()
     {
-        return $this->hasMany('App\Models\Senario');
+        return $this->hasMany('App\Models\Senario')->orderBy("priority", "asc");
     }
 }

@@ -6547,7 +6547,7 @@ ul.uk-nav-sub {
  ========================================================================== */
 
 .uk-navbar-container:not(.uk-navbar-transparent) {
-  background: #EFEFEF;
+  background: white;
 }
 
 /*

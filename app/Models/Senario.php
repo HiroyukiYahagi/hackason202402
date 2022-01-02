@@ -22,7 +22,7 @@ class Senario extends Model
     /**
      * @var array
      */
-    protected $fillable = ['bot_id', 'created_at', 'updated_at', 'deleted_at', 'rich_menu', 'condition', 'name'];
+    protected $fillable = ['bot_id', 'created_at', 'updated_at', 'deleted_at', 'rich_menu', 'condition', 'name', 'priority', 'is_valid'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -30,6 +30,13 @@ class Senario extends Model
     public function bot()
     {
         return $this->belongsTo('App\Models\Bot');
+    }
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function accounts()
+    {
+        return $this->hasMany('App\Models\Account');
     }
 
     /**
