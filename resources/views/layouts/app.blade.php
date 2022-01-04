@@ -17,7 +17,7 @@
     </div>
     @endif
     <div class="uk-width-expand">
-      <div class="uk-section uk-section-small">
+      <div class="uk-section uk-section-small" style="max-height: calc(100vh - 60px);overflow: scroll;">
         <div class="uk-container uk-container-xlarge">
           @yield('content')
         </div>

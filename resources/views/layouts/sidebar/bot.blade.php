@@ -2,7 +2,7 @@
 $admin = \Auth::guard("admin")->user();
 $admin->load(["bots"])
 @endphp
-<div class="uk-background-primary uk-light uk-box-shadow-small" uk-height-viewport>
+<div class="uk-background-primary uk-light uk-box-shadow-small" style="height: calc(100vh - 60px);overflow:scroll;">
   <div class="uk-padding-small">
     <form method="GET" action="{{route('admin.bots.index')}}">
       <select class="uk-select" name="bot_id" onchange="this.parentNode.submit()">

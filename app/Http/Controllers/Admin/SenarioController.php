@@ -20,6 +20,11 @@ class SenarioController extends Controller
     }
 
     public function index(Request $request, Bot $bot){
+        if( $request->input("senario_id") ){
+            return redirect()->route("admin.senarios.view", [
+                "bot" => $bot, "senario" => $request->input("senario_id")
+            ]);
+        }
         return view("admin.senarios.index", [
             "bot" => $bot
         ]);
@@ -39,8 +44,24 @@ class SenarioController extends Controller
     }
 
     public function edit(Request $request, Bot $bot, Senario $senario){
+
+        $senario = $this->senarioService->edit($senario->id, $request->all());
+
+        return back()->with("message", "シナリオ設定を変更しました");
     }
 
     public function delete(Request $request, Bot $bot, Senario $senario){
+
+        $this->senarioService->delete($senario->id);
+
+        return redirect()->route("admin.senarios.index", [
+            "bot" => $bot
+        ])->with("message", "シナリオを削除しました");
+    }
+
+    public function accounts(Request $request, Bot $bot, Senario $senario){
+        return view("admin.senarios.accounts", [
+            "bot" => $bot, "senario" => $senario
+        ]);
     }
 }

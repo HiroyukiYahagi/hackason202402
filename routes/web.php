@@ -29,18 +29,18 @@ Route::namespace("Admin")->prefix('admin')->group( function() {
       Route::post('/edit', "SenarioController@edit")->name("admin.senarios.edit");
       Route::post('/delete', "SenarioController@delete")->name("admin.senarios.delete");
 
-      Route::post('/rules', "RuleController@add")->name("admin.rules.add");
+      Route::get('/rules', "RuleController@index")->name("admin.rules.index");
+      Route::post('/rules/add', "RuleController@add")->name("admin.rules.add");
       Route::prefix('rules/{rule}')->group( function() {
         Route::get('/', "RuleController@view")->name("admin.rules.view");
         Route::post('/edit', "RuleController@edit")->name("admin.rules.edit");
         Route::post('/delete', "RuleController@delete")->name("admin.rules.delete");
 
-        Route::prefix('actions')->group( function() {
-          Route::post('/add', "ActionController@add")->name("admin.actions.add");
-          Route::post('/{action}/edit', "ActionController@edit")->name("admin.actions.edit");
-          Route::post('/{action}/delete', "ActionController@delete")->name("admin.actions.delete");
-        });
+        Route::post('/actions', "RuleController@actions")->name("admin.rules.actions");
+
       });
+
+      Route::get('/accounts', "SenarioController@accounts")->name("admin.senarios.accounts");
     });
 
     Route::prefix('accounts')->group( function() {

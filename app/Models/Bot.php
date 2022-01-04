@@ -53,4 +53,18 @@ class Bot extends Model
     {
         return $this->hasMany('App\Models\Senario')->orderBy("priority", "asc");
     }
+
+    public function validSenarios()
+    {
+        return $this->hasMany('App\Models\Senario')->where("is_valid", 1)->orderBy("priority", "asc");
+    }
+
+    public function checkApplicableSenario(Account $account){
+        foreach( $this->validSenarios as $senario ){
+            if( $senario->checkApplicable($account) ) {
+              return $senario;
+            }
+        }
+        return null;
+    }
 }

@@ -25119,8 +25119,7 @@ document.addEventListener('DOMContentLoaded', function () {
     form.onkeypress = function (e) {
       var key = e.keyCode || e.charCode || 0;
 
-      if (key == 13) {
-        e.preventDefault();
+      if (key == 13) {// e.preventDefault();
       }
     };
 

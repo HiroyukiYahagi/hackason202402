@@ -1,34 +1,42 @@
 @extends('layouts.app')
 
 @section('sidebar')
-
 @include("layouts.sidebar.bot")
-
 @endsection
 
+@section('subbar')
+@include("layouts.sidebar.senario")
+@endsection
 
 @section('content')
     
 <h1>
-  <span class="uk-text-small">{{ $bot->name }}</span><br/>
-  基本情報の編集
+  <span class="uk-text-small">{{ $senario->name }}</span><br/>
+  「{{ $rule->name }}」の設定
 </h1>
 
 <hr />
 
-<form method="post" action="{{route('admin.bots.edit', ['bot' => $bot])}}">
+<h2>アクションリスト</h2>
+
+
+<hr />
+
+<h2>設定</h2>
+
+<form method="post" action="{{route('admin.rules.edit', ['bot' => $bot, 'senario' => $senario, 'rule' => $rule])}}">
   <table class="uk-table uk-table-small uk-table-striped uk-table-small uk-margin uk-table-middle">
     <tbody>
       <tr>
         <td class="uk-width-medium">
           <span class="uk-text-bold">
-            ボット名
+            ルール名
           </span>
         </td>
         <td>
           <div class="uk-width-large">
             @component("components.input.text", [
-              "label" => null, "name" => "name", "type" => "text", "required" => true, "value" => $bot->name
+              "label" => null, "name" => "name", "type" => "text", "required" => true, "value" => $rule->name
             ])@endcomponent
           </div>
         </td>
@@ -36,13 +44,13 @@
       <tr>
         <td class="uk-width-medium">
           <span class="uk-text-bold">
-            LINE アカウント名
+            優先順位(小さい方が優先)
           </span>
         </td>
         <td>
           <div class="uk-width-large">
             @component("components.input.text", [
-              "label" => null, "name" => "line_account_name", "type" => "text", "required" => true, "value" => $bot->line_account_name
+              "label" => null, "name" => "priority", "type" => "number", "required" => true, "value" => $rule->priority
             ])@endcomponent
           </div>
         </td>
@@ -50,22 +58,27 @@
       <tr>
         <td class="uk-width-medium">
           <span class="uk-text-bold">
-            Webhook URL
+            ステータス
           </span>
         </td>
         <td>
-          {{ $bot->webhook_url }}
+          @component("components.input.radios", [
+            "label" => null, "name" => "is_valid", "required" => true, "value" => $rule->is_valid, "options" => [
+              [ "label" => "無効", "value" => 0 ],
+              [ "label" => "有効", "value" => 1 ]
+            ]
+          ])@endcomponent
         </td>
       </tr>
       <tr>
         <td class="uk-width-medium">
           <span class="uk-text-bold">
-            デフォルトのリッチメニュー
+            ルール関数
           </span>
         </td>
         <td>
           @component("components.input.code", [
-            "label" => null, "name" => "rich_menu", "value" => $bot->rich_menu
+            "label" => null, "name" => "condition", "value" => $rule->condition
           ])@endcomponent
         </td>
       </tr>
@@ -82,9 +95,9 @@
 <hr />
 
 <div class="uk-margin uk-text-right">
-  <form method="post" action="{{route('admin.bots.delete', ['bot' => $bot])}}" onsubmit="return confirm('本当に削除しますか？');">
+  <form method="post" action="{{route('admin.rules.delete', ['bot' => $bot, 'senario' => $senario, 'rule' => $rule])}}" onsubmit="return confirm('本当に削除しますか？');">
     <button class="uk-button uk-button-danger">
-      ボットを削除する
+      ルールを削除する
     </button>
     @csrf
   </form>

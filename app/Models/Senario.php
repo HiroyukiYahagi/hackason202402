@@ -44,6 +44,19 @@ class Senario extends Model
      */
     public function rules()
     {
-        return $this->hasMany('App\Models\Rule');
+        return $this->hasMany('App\Models\Rule')->orderBy("priority", "asc");
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function validRules()
+    {
+        return $this->hasMany('App\Models\Rule')->where("is_valid", 1)->orderBy("priority", "asc");
+    }
+
+    public function checkApplicable(Account $account){
+        $account->load(["properties.label"]);
+        return eval($this->condition);
     }
 }

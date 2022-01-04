@@ -19,10 +19,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Rule extends Model
 {
     use SoftDeletes;
+
+
+    const ADD_FRIEND = 1;
+    const REPLY = 2;
+    const SET_PROPERTY = 3;
+
     /**
      * @var array
      */
-    protected $fillable = ['senario_id', 'created_at', 'updated_at', 'deleted_at', 'condition', 'name', 'rule_type'];
+    protected $fillable = ['senario_id', 'created_at', 'updated_at', 'deleted_at', 'condition', 'name', 'rule_type', 'priority', 'is_valid'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
