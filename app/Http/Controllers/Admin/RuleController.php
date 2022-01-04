@@ -52,4 +52,9 @@ class RuleController extends Controller
         ])->with("message", "ルールを作成しました");
     }
 
+    public function actions(Request $request, Bot $bot, Senario $senario, Rule $rule){
+        $rule = $this->ruleService->actions( $rule->id, $request->input("actions") );
+        return back()->with("ルールを変更しました");
+    }
+
 }

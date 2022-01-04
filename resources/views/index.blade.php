@@ -2,6 +2,6 @@
 
 @section('content')
     
-hogehoge
+No Content.
 
 @endsection

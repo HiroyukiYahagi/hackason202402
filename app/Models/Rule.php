@@ -23,7 +23,6 @@ class Rule extends Model
 
     const ADD_FRIEND = 1;
     const REPLY = 2;
-    const SET_PROPERTY = 3;
 
     /**
      * @var array

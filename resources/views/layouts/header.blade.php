@@ -4,6 +4,7 @@
             <img class="uk-width-small" src="{{asset('images/logo.svg')}}" />
         </a>
     </div>
+    @auth("admin")
     <div class="uk-navbar-right">
         <div class="uk-navbar-item">
             <a class="uk-button uk-button-primary" href="{{route('admin.index')}}">
@@ -16,4 +17,5 @@
             </a>
         </div>
     </div>
+    @endauth
 </nav>
