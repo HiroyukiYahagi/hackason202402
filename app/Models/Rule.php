@@ -44,4 +44,12 @@ class Rule extends Model
     {
         return $this->hasMany('App\Models\Action');
     }
+
+    public function isApplicable(Account $account, Message $message=null){
+        
+    }
+
+    public function doActions(Account $account, Message $message=null){
+        
+    }
 }

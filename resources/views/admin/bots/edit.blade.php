@@ -50,6 +50,20 @@
       <tr>
         <td class="uk-width-medium">
           <span class="uk-text-bold">
+            LINE Channel AccessToken
+          </span>
+        </td>
+        <td>
+          <div class="uk-width-1-1">
+            @component("components.input.text", [
+              "label" => null, "name" => "channel_access_token", "type" => "text", "value" => $bot->channel_access_token
+            ])@endcomponent
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="uk-width-medium">
+          <span class="uk-text-bold">
             Webhook URL
           </span>
         </td>

@@ -57,4 +57,33 @@ class Account extends Model
     {
         return $this->hasMany('App\Models\Property');
     }
+
+    public function setProperty($key, $value, $singleton=true){
+        $label = Label::firstOrCreate([
+            "name" => $key
+        ]);
+        if( $singleton ){
+            $this->properties()->where("label_id", $label->id)->delete();
+            $this->properties()->create([
+                "label_id" => $label->id,
+                "val" => $value
+            ]);
+        }else{
+            $this->properties()->create([
+                "label_id" => $label->id,
+                "val" => $value
+            ]);
+        }
+    }
+
+    public function removeProperty($key, $value=null){
+        $label = Label::firstOrCreate([
+            "name" => $key
+        ]);
+        if( $value == null ){
+            $this->properties()->where("label_id", $label->id)->delete();
+        }else{
+            $this->properties()->where("label_id", $label->id)->where("val", $value)->delete();
+        }
+    }
 }

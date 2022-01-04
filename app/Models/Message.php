@@ -20,6 +20,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Message extends Model
 {
+    const ACCOUNT = 0;
+    const BOT = 1;
+
     use SoftDeletes;
     /**
      * @var array

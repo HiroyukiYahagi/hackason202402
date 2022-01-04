@@ -23,7 +23,7 @@ class Bot extends Model
     /**
      * @var array
      */
-    protected $fillable = ['admin_id', 'created_at', 'updated_at', 'deleted_at', 'name', 'line_account_name', 'rich_menu', 'hash'];
+    protected $fillable = ['admin_id', 'created_at', 'updated_at', 'deleted_at', 'name', 'line_account_name', 'rich_menu', 'hash', 'channel_access_token'];
 
     public function getWebhookUrlAttribute(){
         return route('api.line.webhook', [

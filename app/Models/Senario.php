@@ -59,4 +59,20 @@ class Senario extends Model
         $account->load(["properties.label"]);
         return eval($this->condition);
     }
+
+    public function calcRules(Account $account, Message $message=null){
+        if( $message == null ){
+            $this->validRules()->where("rule_type", Rule::ADD_FRIEND)->get()->each(function( $rule ) use ( $account, $message ){
+                if($rule->isApplicable( $account, $message )){
+                    $rule->doActions( $account, $message );
+                }
+            });
+        }else{
+            $this->validRules()->where("rule_type", Rule::REPLY)->get()->each(function( $rule ) use ( $account, $message ){
+                if($rule->isApplicable( $account, $message )){
+                    $rule->doActions( $account, $message );
+                }
+            });
+        }
+    }
 }
