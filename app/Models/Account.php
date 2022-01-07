@@ -21,6 +21,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Account extends Model
 {
     use SoftDeletes;
+
+
+    protected $dates = ["deleted_at", "blocked_at"];
+
     /**
      * @var array
      */
@@ -58,6 +62,24 @@ class Account extends Model
         return $this->hasMany('App\Models\Property');
     }
 
+    public function getPropertyTableAttribute(){
+        $this->load(["properties.label"]);
+        return $this->properties->mapToGroups(function( $property ){
+            return [ $property->label->name => $property->val ];
+        })->map(function($data, $key){
+            return [ "key" => $key, "data" => $data ];
+        })->values();
+    }
+
+    public function setPropertyTableAttribute($table){
+        $this->properties()->delete();
+        foreach( $table as $row ){
+            foreach( $row["data"] as $data ){
+                $this->setProperty( $row["key"], $data, false );
+            }
+        }
+    }
+
     public function setProperty($key, $value, $singleton=true){
         $label = Label::firstOrCreate([
             "name" => $key
@@ -69,7 +91,7 @@ class Account extends Model
                 "val" => $value
             ]);
         }else{
-            $this->properties()->create([
+            $this->properties()->firstOrCreate([
                 "label_id" => $label->id,
                 "val" => $value
             ]);

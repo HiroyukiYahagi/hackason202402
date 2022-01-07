@@ -24,6 +24,8 @@ class Message extends Model
     const BOT = 1;
 
     use SoftDeletes;
+
+    protected $dates = ["deleted_at"];
     /**
      * @var array
      */

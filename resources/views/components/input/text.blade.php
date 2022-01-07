@@ -4,7 +4,7 @@
 </label>
 @endisset
 <div class="uk-form-controls">
-  <input class="uk-input" id="form-{{ $name }}" name="{{$name}}" type="{{ $type }}" placeholder="{{ isset($placeholder) ? $placeholder : $label }}" value="{{ old($name, isset($value) ? $value : null) }}" {{ isset($required) ? 'required' : null }}>
+  <input class="uk-input" id="form-{{ $name }}" name="{{$name}}" type="{{ $type }}" placeholder="{{ isset($placeholder) ? $placeholder : (isset($label) ? $label:null) }}" value="{{ old($name, isset($value) ? $value : null) }}" {{ isset($required) ? 'required' : null }}>
 </div>
 @isset($required)
 <div>

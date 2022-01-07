@@ -24,6 +24,8 @@ class Rule extends Model
     const ADD_FRIEND = 1;
     const REPLY = 2;
 
+    protected $dates = ["deleted_at"];
+
     /**
      * @var array
      */
