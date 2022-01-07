@@ -30,6 +30,10 @@ class AccountService
       $query = $query->where("name", "LIKE", "%".$param["name"]."%");
     }
 
+    if( isset($param["bot_id"]) ){
+      $query = $query->where("bot_id", $param["bot_id"]);
+    }
+
     if( isset($param["status"]) ){
       switch($param["status"]){
       case "all":
@@ -46,6 +50,19 @@ class AccountService
     $query = $query->orderBy("created_at", "desc");
 
     return $query->paginate($pagesize);
+  }
+
+  public function edit($id, $data) {
+    $account = Account::find($id);
+    
+    Validator::make(collect( $account->toArray() )->merge($data)->toArray(), [
+      'senario_id' => 'nullable|exists:senarios,id',
+    ])->validate();
+
+    $account->fill($data);
+    $account->save();
+    
+    return $account;
   }
 
   public function delete($id) {

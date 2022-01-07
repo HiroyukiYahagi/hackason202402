@@ -44,13 +44,35 @@
       <td>reply_token</td>
       <td>{{ $account->reply_token }}</td>
     </tr>
+    <tr>
+      <td>シナリオ</td>
+      <td>
+        <form method="post" action="{{route('admin.accounts.edit', ['bot' => $bot, 'account' => $account])}}">
+          <div class="uk-grid-collapse" uk-grid>
+            <div class="uk-width-medium">
+              @component("components.input.select", [
+                "label" => null, "name" => "senario_id", "value" => $account->senario_id, "options" => $bot->senarios->map( function($senario){
+                  return [ "label" => $senario->name, "value" => $senario->id ];
+                })->prepend( [ "label" => "なし", "value" => null ] )
+              ])@endcomponent
+            </div>
+            <div class="uk-width-small">
+              <button class="uk-button uk-button-primary uk-width-1-1">
+                更新
+              </button>
+            </div>
+          </div>
+          @csrf
+        </form>
+      </td>
+    </tr>
   </tbody>
 </table>
 
 <h2>拡張プロパティ</h2>
 
 <div id="properties-table">
-  <form method="post" action="{{route('admin.accounts.edit', ['bot' => $bot, 'account' => $account])}}">
+  <form method="post" action="{{route('admin.accounts.property', ['bot' => $bot, 'account' => $account])}}">
     <table class="uk-margin uk-table uk-table-striped uk-table-middle uk-table-small">
       <thead>
         <tr>

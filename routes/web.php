@@ -47,6 +47,7 @@ Route::namespace("Admin")->prefix('admin')->group( function() {
       Route::get('/', "AccountController@index")->name("admin.accounts.index");
       Route::get('/{account}', "AccountController@view")->name("admin.accounts.view");
       Route::post('/{account}/edit', "AccountController@edit")->name("admin.accounts.edit");
+      Route::post('/{account}/property', "AccountController@property")->name("admin.accounts.property");
     });
   });
 

@@ -7,16 +7,19 @@ use App\Http\Controllers\Controller;
 
 use \Auth;
 use App\Services\SenarioService;
+use App\Services\AccountService;
 use App\Models\Senario;
 use App\Models\Bot;
 
 class SenarioController extends Controller
 {
     protected $senarioService;
+    protected $accountService;
 
-    public function __construct(SenarioService $senarioService){
+    public function __construct(SenarioService $senarioService, AccountService $accountService){
         $this->middleware('auth:admin');
         $this->senarioService = $senarioService;
+        $this->accountService = $accountService;
     }
 
     public function index(Request $request, Bot $bot){
@@ -60,8 +63,11 @@ class SenarioController extends Controller
     }
 
     public function accounts(Request $request, Bot $bot, Senario $senario){
+        $param = $request->all();
+        $param["bot_id"] = $bot->id;
+        $accounts = $this->accountService->paginate( $param );
         return view("admin.senarios.accounts", [
-            "bot" => $bot, "senario" => $senario
+            "bot" => $bot, "senario" => $senario, "accounts" => $accounts, "param" => $param
         ]);
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use \Auth;
 use App\Services\AccountService;
+use App\Services\SenarioService;
 use App\Models\Account;
 use App\Models\Bot;
 
@@ -34,13 +35,18 @@ class AccountController extends Controller
     }
 
     public function edit(Request $request, Bot $bot, Account $account){
+        $account = $this->accountService->edit($account->id, $request->all());
+        return back()->with("message", "更新しました");
+    }
+
+    public function property(Request $request, Bot $bot, Account $account){
         $account->load(["properties.label", "senario", "bot"]);
         $account->property_table = $request->input("property");
         return back()->with("message", "更新しました");
     }
 
     public function delete(Request $request, Bot $bot, Account $account){
-        $account->load(["properties.label", "senario", "bot"]);
+        $this->accountService->delete($account->id);
         return redirect()->route("admin.accounts.index", [
             "bot" => $bot
         ])->with("message", "削除しました");
