@@ -30,12 +30,11 @@ class Rule extends Model
     /**
      * @var array
      */
-    protected $fillable = ['senario_id', 'created_at', 'updated_at', 'deleted_at', 'condition', 'name', 'rule_type', 'priority', 'is_valid'];
+    protected $fillable = ['senario_id', 'created_at', 'updated_at', 'deleted_at', 'condition', 'name', 'rule_type', 'priority', 'is_valid', 'applied_count', 'error_count', 'blocked_count'];
 
     public function setConditionAttribute($value){
-        $value = str_replace("::", "", $value);
-        $value = str_replace("/", "", $value);
-        $value = str_replace("\\", "", $value);
+        // $value = str_replace("::", "", $value);
+        // $value = str_replace("/", "", $value);
         $this->attributes['condition'] = $value;
     }
     /**
@@ -54,6 +53,26 @@ class Rule extends Model
         return $this->hasMany('App\Models\Action');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function beforeActions()
+    {
+        return $this->hasMany('App\Models\Action')->where("is_after", 0);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function afterActions()
+    {
+        return $this->hasMany('App\Models\Action')->where("is_after", 1);
+    }
+
+    public function getIsValidLabelAttribute(){
+        return $this->is_valid == 1 ? "有効": "無効";
+    }
+
     public function isApplicable(Account $account, Message $message=null){
         $account->load(["properties.label"]);
         \DB::beginTransaction();
@@ -63,13 +82,36 @@ class Rule extends Model
             return $result;
         }catch(\Exception $e){
             \DB::rollBack();
+            \Log::warn($e);
             return false;
         }
     }
 
     public function doActions(Account $account, Message $message=null){
-        $this->actions->each(function($action) use ($account, $message){
+        $this->beforeActions->each(function($action) use ($account, $message){
             $action->do( $account, $message );
         });
+    }
+
+    public function reactActions(Account $account, Message $message=null){
+        $this->afterActions->each(function($action) use ($account, $message){
+            $action->do( $account, $message );
+        });
+    }
+
+    public function copy(){
+        $newRule = Rule::create([
+          "name" => $this->name,
+          "condition" => $this->condition,
+          "rule_type" => $this->rule_type,
+          "priority" => $this->priority,
+          "is_valid" => $this->is_valid,
+        ]);
+        $this->actions->each( function($action) use ($newRule) {
+            $action = $action->copy();
+            $action->rule_id = $newRule->id;
+            $action->save();
+        });
+        return $newRule;
     }
 }

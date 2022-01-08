@@ -40,6 +40,20 @@ class BotService
     return $bot;
   }
 
+  public function recalc($id) {
+    $bot = Bot::find($id);
+
+    $bot->accounts->each(function($account) use ($bot){
+      $senario = $bot->checkApplicableSenario($account);
+      if( $senario ){
+        $account->senario_id = $senario->id;
+        $account->save();
+      }
+    });
+
+    return $bot;
+  }
+
   public function delete($id) {
     $bot = Bot::find($id);
     $bot->delete();

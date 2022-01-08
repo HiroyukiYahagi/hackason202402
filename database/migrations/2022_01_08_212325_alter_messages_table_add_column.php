@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterAccountsTableAddTokenUpdatedAt extends Migration
+class AlterMessagesTableAddColumn extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class AlterAccountsTableAddTokenUpdatedAt extends Migration
      */
     public function up()
     {
-        Schema::table('accounts', function (Blueprint $table) {
-            $table->dateTime('token_updated_at')->nullable();
+        Schema::table('messages', function (Blueprint $table) {
+            $table->string('type')->nullable();
+            $table->mediumText('text')->nullable();
         });
     }
 
@@ -25,8 +26,9 @@ class AlterAccountsTableAddTokenUpdatedAt extends Migration
      */
     public function down()
     {
-        Schema::table('accounts', function (Blueprint $table) {
-            $table->dropColumn('token_updated_at');
+        Schema::table('messages', function (Blueprint $table) {
+            $table->dropColumn('type');
+            $table->dropColumn('text');
         });
     }
 }

@@ -101,12 +101,22 @@
 <hr />
 
 <div class="uk-margin uk-text-right">
-  <form method="post" action="{{route('admin.senarios.delete', ['bot' => $bot, 'senario' => $senario])}}" onsubmit="return confirm('本当に削除しますか？');">
-    <button class="uk-button uk-button-danger">
-      シナリオを削除する
-    </button>
-    @csrf
-  </form>
+  <div class="uk-display-inline-block">
+    <form method="post" action="{{route('admin.senarios.copy', ['bot' => $bot, 'senario' => $senario])}}" onsubmit="return confirm('本当にコピーしますか？')">
+      <button class="uk-button uk-button-default">
+        シナリオをコピーする
+      </button>
+      @csrf
+    </form>
+  </div>
+  <div class="uk-display-inline-block">
+    <form method="post" action="{{route('admin.senarios.delete', ['bot' => $bot, 'senario' => $senario])}}" onsubmit="return confirm('本当に削除しますか？');">
+      <button class="uk-button uk-button-danger">
+        シナリオを削除する
+      </button>
+      @csrf
+    </form>
+  </div>
 </div>
 
 @endsection

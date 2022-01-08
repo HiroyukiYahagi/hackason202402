@@ -64,17 +64,42 @@ class Account extends Model
         return $this->hasMany('App\Models\Property');
     }
 
-    public function sendTextMessage($message){
-        $json = [
-            ["type" => "text","text" => $message]
-        ];
-        return $this->sendMessage($json);
+    public function tap( $input ){
+        return $input;
     }
 
-    public function sendMessage($json){
+    public function lastBotMessage(){
+        return $this->hasOne('App\Models\Message')->where("send_by", Message::BOT)->orderBy("created_at", "desc");
+    }
 
+    public function getPetNamesAttribute(){
+        $pet_names = $this->getProperty("pet_names");
+        if( $pet_names->count() == 0 ) {
+            return $this->name."さんのワンちゃん";
+        }else{
+            return $pet_names->map(function($name) {
+                return str_replace( ["ちゃん", "くん", "君"], "", $name);
+            })->implode("ちゃん・")."ちゃん";
+        }
+    }
+
+    public function sendTextMessage($message){
+        $messages = [
+            ["type" => "text","text" => $message]
+        ];
+        return $this->sendMessage($messages);
+    }
+
+    public function sendJsonMessage($json){
+        \Log::info($json);
+        $json = json_decode($json, true);
+        \Log::info($json);
+        return $this->sendMessage($json["messages"]);
+    }
+
+    public function sendMessage($messages){
         $messageData = [
-            "messages" => $json,
+            "messages" => $messages,
             "to" => $this->hash,
             "token" => null
         ];
@@ -137,10 +162,14 @@ class Account extends Model
         ]);
         if( $singleton ){
             $this->properties()->where("label_id", $label->id)->delete();
-            $this->properties()->create([
-                "label_id" => $label->id,
-                "val" => $value
-            ]);
+        }
+        if( is_array($value) ){
+            foreach( $value as $v ){
+                $this->properties()->firstOrCreate([
+                    "label_id" => $label->id,
+                    "val" => $v
+                ]);
+            }
         }else{
             $this->properties()->firstOrCreate([
                 "label_id" => $label->id,

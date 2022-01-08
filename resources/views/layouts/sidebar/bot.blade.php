@@ -27,7 +27,7 @@ $admin->load(["bots"])
   <hr class="uk-margin-remove" />
   <div class="uk-padding-small">
     <a class="uk-button uk-button-link" href="{{route('admin.senarios.index', ['bot' => $bot])}}">
-      <span uk-icon="icon: list" class="uk-margin-small-right"></span> シナリオ設定
+      <span uk-icon="icon: list" class="uk-margin-small-right"></span> シナリオ一覧
     </a>
   </div>
   <hr class="uk-margin-remove" />

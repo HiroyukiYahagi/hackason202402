@@ -24,7 +24,10 @@
       <th>ステータス</th>
       <th>ルール名</th>
       <th>優先順位</th>
-      <th class="uk-width-medium">action</th>
+      <th>配信数</th>
+      <th>エラー数</th>
+      <th>ブロック数</th>
+      <th class="uk-width-auto">-</th>
     </tr>
   </thead>
   <tbody>
@@ -34,13 +37,22 @@
         {{ $rule->id }}
       </td>
       <td>
-        {{ $rule->is_valid }}
+        {{ $rule->is_valid_label }}
       </td>
       <td>
         {{ $rule->name }}
       </td>
       <td>
         {{ $rule->priority }}
+      </td>
+      <td>
+        {{ $rule->applied_count }}
+      </td>
+      <td>
+        {{ $rule->error_count }}
+      </td>
+      <td>
+        {{ $rule->blocked_count }}
       </td>
       <td>
         <a class="uk-icon-button uk-button-primary" href="{{route('admin.rules.view', ['bot' => $bot, 'senario' => $senario, 'rule' => $rule])}}">

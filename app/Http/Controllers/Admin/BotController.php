@@ -51,6 +51,13 @@ class BotController extends Controller
         ])->with("message", "更新しました。");
     }
 
+    public function recalc(Request $request, Bot $bot){
+        $bot = $this->botService->recalc( $bot->id );
+        return redirect()->route("admin.senarios.index", [
+            "bot" => $bot
+        ])->with("message", "シナリオ配分を再計算しました");
+    }
+
     public function delete(Request $request, Bot $bot){
         $admin = Auth::guard("admin")->user();
         $bot = $this->botService->delete( $bot->id );

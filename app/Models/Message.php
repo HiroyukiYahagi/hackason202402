@@ -29,7 +29,7 @@ class Message extends Model
     /**
      * @var array
      */
-    protected $fillable = ['account_id', 'action_id', 'created_at', 'updated_at', 'deleted_at', 'body', 'send_by', 'message_token', 'reply_token'];
+    protected $fillable = ['account_id', 'action_id', 'created_at', 'updated_at', 'deleted_at', 'body', 'send_by', 'message_token', 'reply_token', 'type', 'text'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -45,5 +45,9 @@ class Message extends Model
     public function action()
     {
         return $this->belongsTo('App\Models\Action');
+    }
+
+    public function getSplitMessageAttribute(){
+        return '["'.implode('","', explode("\n", $this->text)).'"]';
     }
 }

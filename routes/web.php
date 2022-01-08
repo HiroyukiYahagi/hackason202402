@@ -21,18 +21,22 @@ Route::namespace("Admin")->prefix('admin')->group( function() {
     Route::post('/edit', "BotController@edit");
     Route::post('/delete', "BotController@delete")->name("admin.bots.delete");
 
+    Route::post('/recalc', "BotController@recalc")->name("admin.bots.recalc");
+
     Route::get('/senarios', "SenarioController@index")->name("admin.senarios.index");
     Route::post('/senarios/add', "SenarioController@add")->name("admin.senarios.add");
 
     Route::prefix('senarios/{senario}')->group( function() {
       Route::get('/', "SenarioController@view")->name("admin.senarios.view");
       Route::post('/edit', "SenarioController@edit")->name("admin.senarios.edit");
+      Route::post('/copy', "SenarioController@copy")->name("admin.senarios.copy");
       Route::post('/delete', "SenarioController@delete")->name("admin.senarios.delete");
 
       Route::get('/rules', "RuleController@index")->name("admin.rules.index");
       Route::post('/rules/add', "RuleController@add")->name("admin.rules.add");
       Route::prefix('rules/{rule}')->group( function() {
         Route::get('/', "RuleController@view")->name("admin.rules.view");
+        Route::post('/copy', "RuleController@copy")->name("admin.rules.copy");
         Route::post('/edit', "RuleController@edit")->name("admin.rules.edit");
         Route::post('/delete', "RuleController@delete")->name("admin.rules.delete");
 

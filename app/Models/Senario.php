@@ -28,9 +28,8 @@ class Senario extends Model
 
 
     public function setConditionAttribute($value){
-        $value = str_replace("::", "", $value);
-        $value = str_replace("/", "", $value);
-        $value = str_replace("\\", "", $value);
+        // $value = str_replace("::", "", $value);
+        // $value = str_replace("/", "", $value);
         $this->attributes['condition'] = $value;
     }
     /**
@@ -64,6 +63,10 @@ class Senario extends Model
         return $this->hasMany('App\Models\Rule')->where("is_valid", 1)->orderBy("priority", "asc");
     }
 
+    public function getIsValidLabelAttribute(){
+        return $this->is_valid == 1 ? "有効": "無効";
+    }
+
     public function isApplicable(Account $account){
         $account->load(["properties.label"]);
         \DB::beginTransaction();
@@ -73,6 +76,7 @@ class Senario extends Model
             return $result;
         }catch(\Exception $e){
             \DB::rollBack();
+            \Log::warn($e);
             return false;
         }
     }
@@ -82,14 +86,35 @@ class Senario extends Model
             $this->validRules()->where("rule_type", Rule::ADD_FRIEND)->get()->each(function( $rule ) use ( $account, $message ){
                 if($rule->isApplicable( $account, $message )){
                     $rule->doActions( $account, $message );
+                    $rule->increment("applied_count");
                 }
             });
         }else{
+            $account->lastBotMessage->action->rule->reactActions( $account, $message );
+
             $this->validRules()->where("rule_type", Rule::REPLY)->get()->each(function( $rule ) use ( $account, $message ){
                 if($rule->isApplicable( $account, $message )){
                     $rule->doActions( $account, $message );
+                    $rule->increment("applied_count");
                 }
             });
         }
+    }
+
+    public function copy(){
+        $newSenario = Senario::create([
+          "name" => explode("_", $this->name)[0]."_".now()->format("Ymdhis"),
+          "bot_id" => $this->bot_id,
+          "priority" => $this->priority,
+          "is_valid" => 0,
+          "condition" => $this->condition,
+          "rich_menu" => $this->rich_menu
+        ]);
+        $this->rules->each( function($rule) use ($newSenario) {
+            $rule = $rule->copy();
+            $rule->senario_id = $newSenario->id;
+            $rule->save();
+        });
+        return $newSenario;
     }
 }

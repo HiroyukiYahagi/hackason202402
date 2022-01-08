@@ -34,6 +34,10 @@ class AccountService
       $query = $query->where("bot_id", $param["bot_id"]);
     }
 
+    if( isset($param["senario_id"]) ){
+      $query = $query->where("senario_id", $param["senario_id"]);
+    }
+
     if( isset($param["status"]) ){
       switch($param["status"]){
       case "all":

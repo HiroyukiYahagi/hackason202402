@@ -35,31 +35,6 @@ class LineBotService
     }
     return null;
   }
-
-
-  public function sendMessage($bot, $account, $json){
-    try {
-        $client = new RequestClient();
-        $response = $client->get("https://api.line.me/v2/bot/profile/".$account->hash, [
-            'debug' => true,
-            'headers' => [
-              'Authorization' => 'Bearer '.$bot->channel_access_token
-            ],
-            'json' => []
-        ]);
-        $result = json_decode((string) $response->getBody(), true);
-
-        $account->name = $result["displayName"];
-        $account->setProperty("thumbnail", $result["pictureUrl"]);
-        $account->save();
-
-        return $account;
-    } catch (\Exception $e) {
-        \Log::error($e);
-    }
-    return null;
-  }
-
   
   public function executeRequest(Bot $bot, $data){
     \Log::info( var_export($data,true) );
@@ -117,6 +92,9 @@ class LineBotService
     $account->blocked_at = now();
     $account->reply_token = null;
     $account->save();
+
+    $account->lastBotMessage->action->rule->increment("blocked_count");
+
     return true;
   }
 
@@ -127,9 +105,15 @@ class LineBotService
 
     $account = Account::where("hash", $userId)->where("bot_id", $bot->id)->firstOrFail();
 
+    if( $data["events"][0]["message"]["type"] != 'text' ){
+      return false;
+    }
+
     $message = $account->messages()->create([
       "send_by" => Message::ACCOUNT,
-      "body" => $data["events"][0]["message"]["text"],
+      "type" => $data["events"][0]["message"]["type"],
+      "text" => $data["events"][0]["message"]["text"],
+      "body" => json_encode($data["events"][0]["message"],JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT),
       "message_token" => $data["events"][0]["message"]["id"],
       "reply_token" => $data["events"][0]["replyToken"]
     ]);

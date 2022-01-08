@@ -45,6 +45,15 @@ class SenarioService
     return $senario;
   }
 
+  public function copy($senarioId) {
+
+    $senario = Senario::with(["rules.actions"])->find($senarioId);
+
+    $newSenario = $senario->copy();
+
+    return $newSenario;
+  }
+
   public function delete($senarioId) {
     $senario = Senario::find($senarioId);
     $senario->delete();

@@ -46,17 +46,18 @@ class SenarioController extends Controller
         ]);
     }
 
+    public function copy(Request $request, Bot $bot, Senario $senario){
+        $senario = $this->senarioService->copy($senario->id);
+        return back()->with("message", "シナリオ設定をコピーしました");
+    }
+
     public function edit(Request $request, Bot $bot, Senario $senario){
-
         $senario = $this->senarioService->edit($senario->id, $request->all());
-
         return back()->with("message", "シナリオ設定を変更しました");
     }
 
     public function delete(Request $request, Bot $bot, Senario $senario){
-
         $this->senarioService->delete($senario->id);
-
         return redirect()->route("admin.senarios.index", [
             "bot" => $bot
         ])->with("message", "シナリオを削除しました");
@@ -64,7 +65,7 @@ class SenarioController extends Controller
 
     public function accounts(Request $request, Bot $bot, Senario $senario){
         $param = $request->all();
-        $param["bot_id"] = $bot->id;
+        $param["senario_id"] = $senario->id;
         $accounts = $this->accountService->paginate( $param );
         return view("admin.senarios.accounts", [
             "bot" => $bot, "senario" => $senario, "accounts" => $accounts, "param" => $param

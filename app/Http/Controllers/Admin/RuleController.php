@@ -41,11 +41,17 @@ class RuleController extends Controller
 
     public function edit(Request $request, Bot $bot, Senario $senario, Rule $rule){
         $rule = $this->ruleService->edit( $rule->id, $request->all() );
-        return back()->with("ルールを変更しました");
+        return back()->with("message", "ルールを変更しました");
+    }
+
+    public function copy(Request $request, Bot $bot, Senario $senario, Rule $rule){
+        $rule = $this->ruleService->copy( $rule->id );
+        return redirect()->route("admin.rules.index", [
+            "bot" => $bot, "senario" => $senario
+        ])->with("message", "ルールをコピーしました");
     }
 
     public function delete(Request $request, Bot $bot, Senario $senario, Rule $rule){
-
         $this->ruleService->delete( $rule->id );
         return redirect()->route("admin.rules.index", [
             "bot" => $bot, "senario" => $senario
@@ -53,8 +59,8 @@ class RuleController extends Controller
     }
 
     public function actions(Request $request, Bot $bot, Senario $senario, Rule $rule){
-        $rule = $this->ruleService->actions( $rule->id, $request->input("actions") );
-        return back()->with("ルールを変更しました");
+        $rule = $this->ruleService->actions( $rule->id, $request->input("actions", []), $request->input("is_after", 0) );
+        return back()->with("message", "ルールを変更しました");
     }
 
 }

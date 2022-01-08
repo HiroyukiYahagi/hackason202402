@@ -44,7 +44,16 @@ class RuleService
     return $rule;
   }
 
-  public function actions($ruleId, $actions) {
+  public function copy($ruleId) {
+    $rule = Rule::find($ruleId);
+    $newRule = $rule->copy();
+    $newRule->is_valid = 0;
+    $newRule->senario_id = $rule->senario_id;
+    $newRule->save();
+    return $newRule;
+  }
+
+  public function actions($ruleId, $actions, $isAfter) {
     $rule = Rule::find($ruleId);
 
     Validator::make([
@@ -58,15 +67,22 @@ class RuleService
         return isset($item["id"]) ? $item["id"] : null;
     })->values();
 
-    $rule->actions()->whereNotIn("id", $ids)->delete();
+    $rule->actions()->whereNotIn("id", $ids)->where("is_after", $isAfter)->delete();
 
     foreach( $actions as $index => $action ){
-      $act = isset($action["id"]) ? Action::find( $action["id"] ): Action::create();
+      $act = null;
+      if( isset($action["id"]) ){
+        $act = Action::find( $action["id"] );
+      }
+      if( !isset($act) ){
+        $act = Action::create();
+      }
 
       $act->fill([
         "rule_id" => $ruleId,
         "name" => $action["name"],
         "body" => $action["body"],
+        "is_after" => $isAfter,
         "action_type" => $action["action_type"],
       ]);
       $act->save();

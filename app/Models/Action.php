@@ -28,12 +28,11 @@ class Action extends Model
     /**
      * @var array
      */
-    protected $fillable = ['rule_id', 'created_at', 'updated_at', 'deleted_at', 'body', 'order', 'name', 'action_type'];
+    protected $fillable = ['rule_id', 'created_at', 'updated_at', 'deleted_at', 'body', 'order', 'name', 'action_type', 'is_after'];
 
     public function setBodyAttribute($value){
-        $value = str_replace("::", "", $value);
-        $value = str_replace("/", "", $value);
-        $value = str_replace("\\", "", $value);
+        // $value = str_replace("::", "", $value);
+        // $value = str_replace("/", "", $value);
         $this->attributes['body'] = $value;
     }
     /**
@@ -60,43 +59,68 @@ class Action extends Model
             \DB::beginTransaction();
             $message = null;
             try{
-                $message = eval($this->body);
+                $correctBody = "\$json =<<<EOF\n{ \"messages\": ".$this->body."}\nEOF;\nreturn \$json;";
+                $message = eval($correctBody);
                 \DB::rollBack();
+
+                $messageData = $account->sendJsonMessage($message);
+                if( $messageData != null ){
+                    $this->messages()->create([
+                        "account_id" => $account->id,
+                        "message_token" => $messageData["token"],
+                        "body" => json_encode($messageData["messages"],JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT),
+                        "send_by" => Message::BOT
+                    ]);
+                }
+                return true;
             }catch(\Exception $e){
                 \DB::rollBack();
-            }
-            \Log::info($message);
-            $messageData = $account->sendTextMessage($message);
-            if( $messageData != null ){
-                $this->messages()->create([
-                    "account_id" => $account->id,
-                    "message_token" => $messageData["token"],
-                    "body" => json_encode($messageData["messages"],JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT),
-                    "send_by" => Message::BOT
-                ]);
+                \Log::warn($e->getResponse()->getBody()->getContents());
+                $this->rule->increment("error_count");
+                return false;
             }
             break;
         case $this::ADD_PROPERTY:
             \DB::beginTransaction();
             try{
-                eval($this->body);
+                $correctBody = "\$json =<<<EOF\n".$this->body."\nEOF;\nreturn \$json;";
+                $property = eval($correctBody);
+                $property = json_decode($property, true);
+
+                $account->setProperty($property["key"], $property["value"], isset($property["singleton"]) ? $property["singleton"] : true);
                 \DB::commit();
+                return true;
             }catch(\Exception $e){
                 \DB::rollBack();
+                \Log::warn($e);
+                $this->rule->increment("error_count");
+                return false;
             }
-            \Log::info($message);
             break;
         default:
             \DB::beginTransaction();
             try{
                 $result = eval($this->body);
                 \DB::commit();
-                return $result;
+                return true;
             }catch(\Exception $e){
                 \DB::rollBack();
+                \Log::warn($e);
+                $this->rule->increment("error_count");
                 return false;
             }
             break;
         }
+    }
+
+    public function copy(){
+        $newAction = Action::create([
+          "name" => $this->name,
+          "body" => $this->body,
+          "action_type" => $this->action_type,
+          "is_after" => $this->is_after,
+          "order" => $this->order,
+        ]);
+        return $newAction;
     }
 }
