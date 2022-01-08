@@ -158,4 +158,21 @@ let actionList = new Vue({
 });
 </script>
 
+
+<h2>メッセージ送る</h2>
+
+<form method="post" action="{{route('admin.accounts.send', ['bot' => $bot, 'account' => $account])}}" onsubmit="return confirm('本当に送りますか？');">
+  <div class="uk-margin">
+    @component("components.input.code", [
+      "label" => null, "name" => "messages"
+    ])@endcomponent
+  </div>
+  <div class="uk-margin uk-text-center">
+    <button class="uk-button uk-button-primary uk-width-medium">
+      送る
+    </button>
+  </div>
+  @csrf
+</form>
+
 @endsection

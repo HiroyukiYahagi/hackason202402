@@ -10,3 +10,10 @@
 
 // Import UIkit.
 @import "uikit/src/scss/uikit-theme.scss";
+
+
+.uk-button {
+  border-radius: 4px;
+  border-bottom: 2px solid darken($global-primary-background, 10%);
+  border-right: 2px solid darken($global-primary-background, 10%);
+}

@@ -1,5 +1,5 @@
 @if(isset($errors) || session('message') || session('error') )
-<div class="uk-position-fixed uk-position-top-right uk-padding-small" style="z-index: 1000;">
+<div class="uk-position-fixed uk-position-top-right uk-padding-small" style="z-index: 1000;width: 400px;max-width: 100%;">
   @foreach ($errors->all() as $message)
   <div class="uk-display-block uk-width-large@s uk-margin-small uk-alert-danger" uk-alert>
     <a class="uk-alert-close" uk-close></a>

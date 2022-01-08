@@ -45,6 +45,11 @@ class AccountController extends Controller
         return back()->with("message", "更新しました");
     }
 
+    public function send(Request $request, Bot $bot, Account $account){
+        $account->sendMessage( json_decode($request->input("messages"), true) );
+        return back()->with("message", "更新しました");
+    }
+
     public function delete(Request $request, Bot $bot, Account $account){
         $this->accountService->delete($account->id);
         return redirect()->route("admin.accounts.index", [

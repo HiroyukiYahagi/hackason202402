@@ -105,7 +105,7 @@ class Account extends Model
         ];
         $url = "https://api.line.me/v2/bot/message/push";
         if( $this->reply_token != null && $this->token_updated_at >= now()->subHour(1) ){
-            if( $this->messages()->where("message_token")->count() != null ){
+            if( $this->messages()->where("message_token", $this->reply_token)->count() == 0 ){
                 // tokenが使われていなけれ
                 $url = "https://api.line.me/v2/bot/message/reply";
                 $messageData["replyToken"] = $this->reply_token;

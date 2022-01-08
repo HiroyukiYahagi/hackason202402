@@ -2,6 +2,9 @@
 
 Route::get('/', "RootController@index")->name("root.index");
 
+Route::get('/accounts/{hash}', "RootController@account")->name("accounts.view");
+Route::post('/accounts/{hash}/edit', "RootController@editAccount")->name("accounts.edit");
+
 
 Route::namespace("Admin")->prefix('admin')->group( function() {
   Route::get('/login', "AuthController@showLoginForm")->name("admin.login");
@@ -52,6 +55,7 @@ Route::namespace("Admin")->prefix('admin')->group( function() {
       Route::get('/{account}', "AccountController@view")->name("admin.accounts.view");
       Route::post('/{account}/edit', "AccountController@edit")->name("admin.accounts.edit");
       Route::post('/{account}/property', "AccountController@property")->name("admin.accounts.property");
+      Route::post('/{account}/send', "AccountController@send")->name("admin.accounts.send");
     });
   });
 
