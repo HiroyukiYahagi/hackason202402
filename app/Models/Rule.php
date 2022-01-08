@@ -23,6 +23,7 @@ class Rule extends Model
 
     const ADD_FRIEND = 1;
     const REPLY = 2;
+    const HOURLY = 3;
 
     protected $dates = ["deleted_at"];
 
@@ -31,6 +32,12 @@ class Rule extends Model
      */
     protected $fillable = ['senario_id', 'created_at', 'updated_at', 'deleted_at', 'condition', 'name', 'rule_type', 'priority', 'is_valid'];
 
+    public function setConditionAttribute($value){
+        $value = str_replace("::", "", $value);
+        $value = str_replace("/", "", $value);
+        $value = str_replace("\\", "", $value);
+        $this->attributes['condition'] = $value;
+    }
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -48,10 +55,21 @@ class Rule extends Model
     }
 
     public function isApplicable(Account $account, Message $message=null){
-        
+        $account->load(["properties.label"]);
+        \DB::beginTransaction();
+        try{
+            $result = eval($this->condition);
+            \DB::rollBack();
+            return $result;
+        }catch(\Exception $e){
+            \DB::rollBack();
+            return false;
+        }
     }
 
     public function doActions(Account $account, Message $message=null){
-        
+        $this->actions->each(function($action) use ($account, $message){
+            $action->do( $account, $message );
+        });
     }
 }

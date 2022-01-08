@@ -23,7 +23,7 @@
   <hr class="uk-margin-remove" />
   <div class="uk-padding-small">
     <a class="uk-button uk-button-text" href="{{route('admin.senarios.accounts', ['bot' => $bot, 'senario' => $senario])}}">
-      アカウント一覧
+      登録ユーザー
     </a>
   </div>
 </div>

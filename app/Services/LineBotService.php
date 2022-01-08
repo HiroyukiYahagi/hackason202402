@@ -92,6 +92,7 @@ class LineBotService
 
     $account->blocked_at = null;
     $account->reply_token = $data["events"][0]["replyToken"];
+    $account->token_updated_at = now();
     $account->save();
 
     $account = $this->getProfile($bot, $account);
@@ -133,11 +134,12 @@ class LineBotService
       "reply_token" => $data["events"][0]["replyToken"]
     ]);
     $account->reply_token = $data["events"][0]["replyToken"];
+    $account->token_updated_at = now();
     $account->save();
 
 
     if( $account->senario ){
-      $account->senario->calcRules( $account, null );  
+      $account->senario->calcRules( $account, $message );  
     }
 
     return true;

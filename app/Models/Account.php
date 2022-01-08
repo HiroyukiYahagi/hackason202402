@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+
+use GuzzleHttp\Client as RequestClient;
 /**
  * @property int $id
  * @property int $bot_id
@@ -23,12 +25,12 @@ class Account extends Model
     use SoftDeletes;
 
 
-    protected $dates = ["deleted_at", "blocked_at"];
+    protected $dates = ["deleted_at", "blocked_at", "token_updated_at"];
 
     /**
      * @var array
      */
-    protected $fillable = ['bot_id', 'senario_id', 'created_at', 'updated_at', 'deleted_at', 'hash', 'name', 'reply_token', 'blocked_at'];
+    protected $fillable = ['bot_id', 'senario_id', 'created_at', 'updated_at', 'deleted_at', 'hash', 'name', 'reply_token', 'blocked_at', "token_updated_at"];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -62,6 +64,47 @@ class Account extends Model
         return $this->hasMany('App\Models\Property');
     }
 
+    public function sendTextMessage($message){
+        $json = [
+            ["type" => "text","text" => $message]
+        ];
+        return $this->sendMessage($json);
+    }
+
+    public function sendMessage($json){
+
+        $messageData = [
+            "messages" => $json,
+            "to" => $this->hash,
+            "token" => null
+        ];
+        $url = "https://api.line.me/v2/bot/message/push";
+        if( $this->reply_token != null && $this->token_updated_at >= now()->subHour(1) ){
+            if( $this->messages()->where("message_token")->count() != null ){
+                // tokenが使われていなけれ
+                $url = "https://api.line.me/v2/bot/message/reply";
+                $messageData["replyToken"] = $this->reply_token;
+                $messageData["token"] = $this->reply_token;
+            }
+        }
+
+        try {
+            $client = new RequestClient();
+            $response = $client->post($url, [
+                'debug' => true,
+                'headers' => [
+                  'Authorization' => 'Bearer '.$this->bot->channel_access_token
+                ],
+                'json' => $messageData
+            ]);
+            $result = json_decode((string) $response->getBody(), true);
+            return $messageData;
+        } catch (\Exception $e) {
+            \Log::error($e);
+            return null;
+        }
+    }
+
     public function getPropertyTableAttribute(){
         $this->load(["properties.label"]);
         return $this->properties->mapToGroups(function( $property ){
@@ -78,6 +121,14 @@ class Account extends Model
                 $this->setProperty( $row["key"], $data, false );
             }
         }
+    }
+
+    public function getProperty($key){
+        return $this->properties->filter( function($property) use ($key){
+            return $property->label->name == $key;
+        })->map(function($property){
+            return $property->val;
+        });
     }
 
     public function setProperty($key, $value, $singleton=true){

@@ -67,6 +67,7 @@ class RuleService
         "rule_id" => $ruleId,
         "name" => $action["name"],
         "body" => $action["body"],
+        "action_type" => $action["action_type"],
       ]);
       $act->save();
     }

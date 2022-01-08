@@ -26,6 +26,13 @@ class Senario extends Model
      */
     protected $fillable = ['bot_id', 'created_at', 'updated_at', 'deleted_at', 'rich_menu', 'condition', 'name', 'priority', 'is_valid'];
 
+
+    public function setConditionAttribute($value){
+        $value = str_replace("::", "", $value);
+        $value = str_replace("/", "", $value);
+        $value = str_replace("\\", "", $value);
+        $this->attributes['condition'] = $value;
+    }
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -57,9 +64,17 @@ class Senario extends Model
         return $this->hasMany('App\Models\Rule')->where("is_valid", 1)->orderBy("priority", "asc");
     }
 
-    public function checkApplicable(Account $account){
+    public function isApplicable(Account $account){
         $account->load(["properties.label"]);
-        return eval($this->condition);
+        \DB::beginTransaction();
+        try{
+            $result = eval($this->condition);
+            \DB::rollBack();
+            return $result;
+        }catch(\Exception $e){
+            \DB::rollBack();
+            return false;
+        }
     }
 
     public function calcRules(Account $account, Message $message=null){

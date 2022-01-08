@@ -63,7 +63,7 @@ class Bot extends Model
 
     public function checkApplicableSenario(Account $account){
         foreach( $this->validSenarios as $senario ){
-            if( $senario->checkApplicable($account) ) {
+            if( $senario->isApplicable($account) ) {
               return $senario;
             }
         }

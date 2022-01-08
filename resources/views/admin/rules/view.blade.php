@@ -25,7 +25,7 @@
       <thead>
         <tr>
           <th class="uk-table-shrink">#</th>
-          <th class="uk-width-medium">TTL</th>
+          <th class="uk-width-medium">-</th>
           <th class="uk-table-expand">ACTION</th>
           <th class="uk-table-shrink">-</th>
         </tr>
@@ -37,7 +37,16 @@
             <input v-if="action.id != null" type="hidden" v-bind:name="'actions['+index+'][id]'" v-model="action.id" />
           </td>
           <td>
-            <input class="uk-input" type="text" v-bind:name="'actions['+index+'][name]'" v-model="action.name" />
+            <div class="uk-margin-small">
+              <input class="uk-input" type="text" v-bind:name="'actions['+index+'][name]'" v-model="action.name" />
+            </div>
+            <div class="uk-margin-small">
+              <select class="uk-select" v-bind:name="'actions['+index+'][action_type]'" v-model="action.action_type">
+                <option value="{{App\Models\Action::OTHER}}">その他</option>
+                <option value="{{App\Models\Action::SEND_MESSAGE}}">メッセージ送信</option>
+                <option value="{{App\Models\Action::ADD_PROPERTY}}">プロパティ追加</option>
+              </select>
+            </div>
           </td>
           <td>
             <textarea class="uk-textarea uk-height-small" type="text" v-bind:name="'actions['+index+'][body]'" v-model="action.body"></textarea>
@@ -149,7 +158,8 @@ let actionList = new Vue({
           @component("components.input.select", [
             "label" => null, "name" => "rule_type", "required" => true, "value" => $rule->rule_type, "options" => [
               [ "label" => "友達登録時", "value" => $rule::ADD_FRIEND ],
-              [ "label" => "メッセージ受信時", "value" => $rule::REPLY ]
+              [ "label" => "メッセージ受信時", "value" => $rule::REPLY ],
+              [ "label" => "バッチ実行", "value" => $rule::HOURLY ]
             ]
           ])@endcomponent
         </td>
