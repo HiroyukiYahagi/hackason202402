@@ -25,7 +25,7 @@
         登録者
       </h4>
       <div class="uk-text-center uk-h3">
-        {{ $bot->accounts_count }} / {{ $bot->accounts_count }}
+        {{ $bot->accounts()->count() }}
       </div>
     </div>
   </div>
@@ -35,17 +35,7 @@
         アクティブユーザー数
       </h4>
       <div class="uk-text-center uk-h3">
-        {{ $bot->accounts_count }}
-      </div>
-    </div>
-  </div>
-  <div class="uk-width-1-3">
-    <div class="uk-card uk-card-small uk-card-default uk-card-body">
-      <h4 class="uk-text-center">
-        メッセージ数
-      </h4>
-      <div class="uk-text-center uk-h3">
-        {{ $bot->accounts_count }}
+        {{ $bot->activeAccounts()->count() }}
       </div>
     </div>
   </div>
@@ -85,15 +75,6 @@
       </td>
     </tr>
     <tr>
-      <td class="uk-width-medium">
-        <span class="uk-text-bold">
-          デフォルトのリッチメニュー
-        </span>
-      </td>
-      <td>
-        {{ $bot->rich_menu }}
-      </td>
-    </tr>
   </tbody>
 </table>
 

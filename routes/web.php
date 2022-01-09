@@ -24,6 +24,8 @@ Route::namespace("Admin")->prefix('admin')->group( function() {
     Route::post('/edit', "BotController@edit");
     Route::post('/delete', "BotController@delete")->name("admin.bots.delete");
 
+    Route::post('/rich', "BotController@setRichMenu")->name("admin.bots.rich");
+
     Route::post('/recalc', "BotController@recalc")->name("admin.bots.recalc");
 
     Route::get('/senarios', "SenarioController@index")->name("admin.senarios.index");

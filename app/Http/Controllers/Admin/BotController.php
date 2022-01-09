@@ -63,4 +63,9 @@ class BotController extends Controller
         $bot = $this->botService->delete( $bot->id );
         return redirect()->route("admin.index")->with("message", "ボットを削除しました");
     }
+
+    public function setRichMenu(Request $request, Bot $bot){
+        $bot = $this->botService->setRichMenu( $bot->id, $request->all());
+        return back()->with("message", "新しいBOTを作成しました");   
+    }
 }

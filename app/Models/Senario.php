@@ -24,7 +24,7 @@ class Senario extends Model
     /**
      * @var array
      */
-    protected $fillable = ['bot_id', 'created_at', 'updated_at', 'deleted_at', 'rich_menu', 'condition', 'name', 'priority', 'is_valid'];
+    protected $fillable = ['bot_id', 'created_at', 'updated_at', 'deleted_at', 'rich_menu', 'condition', 'name', 'priority', 'is_valid', 'rich_menu_id', 'rich_menu_url'];
 
 
     public function setConditionAttribute($value){

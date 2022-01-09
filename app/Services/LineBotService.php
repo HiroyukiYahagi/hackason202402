@@ -129,4 +129,44 @@ class LineBotService
     return true;
   }
 
+  public function setRichMenu(Bot $bot, $richMenu, $richMenuUrl, $isDefault=false){
+
+    try {
+        $client = new RequestClient();
+        $response = $client->post("https://api.line.me/v2/bot/richmenu", [
+            'debug' => true,
+            'headers' => [
+              'Authorization' => 'Bearer '.$bot->channel_access_token
+            ],
+            'json' => json_decode($richMenu, true)
+        ]);
+        $result = json_decode((string) $response->getBody(), true);
+
+
+        $contentType = strpos($richMenuUrl, ".png") !== false ? 'image/png': 'image/jpeg';
+        if(strpos($richMenuUrl, \Storage::url("")) !== false){
+          $absPath = explode( \Storage::url(""), $richMenuUrl)[1];
+          $richMenuUrl = \Storage::path($absPath);
+        }
+
+        exec('curl -v -X POST https://api-data.line.me/v2/bot/richmenu/'.$result["richMenuId"].'/content -H "Authorization: Bearer '.$bot->channel_access_token.'" -H "Content-Type: '.$contentType.'" -T '.$richMenuUrl);
+
+        if( $isDefault ){
+          $response = $client->post("https://api.line.me/v2/bot/user/all/richmenu/".$result["richMenuId"], [
+              'debug' => true,
+              'headers' => [
+                'Authorization' => 'Bearer '.$bot->channel_access_token
+              ]
+          ]);
+          json_decode((string) $response->getBody(), true);
+        }
+
+        return $result["richMenuId"];
+    } catch (\Exception $e) {
+        \Log::error($e);
+        return null;
+    }
+    
+  }
+
 }

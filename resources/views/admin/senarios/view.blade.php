@@ -64,7 +64,7 @@
           ])@endcomponent
         </td>
       </tr>
-      <tr>
+      <!-- <tr>
         <td class="uk-width-medium">
           <span class="uk-text-bold">
             リッチメニュー
@@ -75,7 +75,7 @@
             "label" => null, "name" => "rich_menu", "value" => $senario->rich_menu
           ])@endcomponent
         </td>
-      </tr>
+      </tr> -->
       <tr>
         <td class="uk-width-medium">
           <span class="uk-text-bold">
