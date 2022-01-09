@@ -66,6 +66,7 @@ class LineBotService
     $isNewAccount = $account->wasRecentlyCreated;
 
     $account->blocked_at = null;
+    $account->activated_at = now();
     $account->reply_token = $data["events"][0]["replyToken"];
     $account->token_updated_at = now();
     $account->save();

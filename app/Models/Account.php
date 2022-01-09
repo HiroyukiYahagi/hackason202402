@@ -25,12 +25,12 @@ class Account extends Model
     use SoftDeletes;
 
 
-    protected $dates = ["deleted_at", "blocked_at", "token_updated_at"];
+    protected $dates = ["deleted_at", "blocked_at", "token_updated_at", "activated_at"];
 
     /**
      * @var array
      */
-    protected $fillable = ['bot_id', 'senario_id', 'created_at', 'updated_at', 'deleted_at', 'hash', 'name', 'reply_token', 'blocked_at', "token_updated_at"];
+    protected $fillable = ['bot_id', 'senario_id', 'created_at', 'updated_at', 'deleted_at', 'hash', 'name', 'reply_token', 'blocked_at', "token_updated_at", "activated_at"];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -187,5 +187,15 @@ class Account extends Model
         }else{
             $this->properties()->where("label_id", $label->id)->where("val", $value)->delete();
         }
+    }
+
+    public function dayAfterActivated($day){
+        $now = now()->subDay($day)->startOfHour();
+        return $this->activated_at >= $now && $this->activated_at < $now->addHour(1);
+    }
+
+    public function dayAfterCreated($day){
+        $now = now()->subDay($day)->startOfHour();
+        return $this->created_at >= $now && $this->created_at < $now->addHour(1);
     }
 }
