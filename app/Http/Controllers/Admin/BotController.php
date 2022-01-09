@@ -66,6 +66,6 @@ class BotController extends Controller
 
     public function setRichMenu(Request $request, Bot $bot){
         $bot = $this->botService->setRichMenu( $bot->id, $request->all());
-        return back()->with("message", "新しいBOTを作成しました");   
+        return back()->with("message", "新しいリッチメニューを作成しました");   
     }
 }
