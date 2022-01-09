@@ -74,7 +74,7 @@ class LineBotService
     $account = $this->getProfile($bot, $account);
 
     $senario = $bot->checkApplicableSenario($account);
-    if( $senario == null ){
+    if( $senario != null ){
       $account->senario_id = $senario->id;
       $account->save();
     }
