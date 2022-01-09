@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command(PushMessageCommand::class)->hourlyAt(5);
+        $schedule->command(PushMessageCommand::class)->hourlyAt(30);
     }
 
     /**
