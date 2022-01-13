@@ -150,7 +150,12 @@ class LineBotService
           $richMenuUrl = \Storage::path($absPath);
         }
 
-        exec('curl -v -X POST https://api-data.line.me/v2/bot/richmenu/'.$result["richMenuId"].'/content -H "Authorization: Bearer '.$bot->channel_access_token.'" -H "Content-Type: '.$contentType.'" -T '.$richMenuUrl);
+        $output=null;
+        $retval=null;
+
+        exec('curl -v -X POST https://api-data.line.me/v2/bot/richmenu/'.$result["richMenuId"].'/content -H "Authorization: Bearer '.$bot->channel_access_token.'" -H "Content-Type: '.$contentType.'" -T '.$richMenuUrl, $output, $retval);
+        \Log::info($output);
+        \Log::info($retval);
 
         if( $isDefault ){
           $response = $client->post("https://api.line.me/v2/bot/user/all/richmenu/".$result["richMenuId"], [
