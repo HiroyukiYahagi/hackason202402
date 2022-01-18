@@ -24,7 +24,7 @@ class AccountController extends Controller
         $param["bot_id"] = $bot->id;
         $acconts = $this->accountService->paginate($param);
         return view("admin.accounts.index", [
-            "bot" => $bot, "accounts" => $acconts, "param" => $param
+            "bot" => $bot, "accounts" => $acconts, "param" => $request->all()
         ]);
     }
 
