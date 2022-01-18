@@ -63,4 +63,8 @@ class RuleController extends Controller
         return back()->with("message", "ルールを変更しました");
     }
 
+    public function test(Request $request, Bot $bot, Senario $senario, Rule $rule){
+        $this->ruleService->test( $rule->id, $request->input("tester_id") );
+        return back()->with("message", "ルールをテストを送信しました");
+    }
 }

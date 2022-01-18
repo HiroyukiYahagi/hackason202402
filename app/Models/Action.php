@@ -57,13 +57,12 @@ class Action extends Model
         switch( $this->action_type ){
         case $this::SEND_MESSAGE:
             \DB::beginTransaction();
-            $message = null;
             try{
                 $correctBody = "\$json =<<<EOF\n{ \"messages\": ".$this->body."}\nEOF;\nreturn \$json;";
-                $message = eval($correctBody);
+                $msg = eval($correctBody);
                 \DB::rollBack();
 
-                $messageData = $account->sendJsonMessage($message);
+                $messageData = $account->sendJsonMessage($msg);
                 if( $messageData != null ){
                     $this->messages()->create([
                         "account_id" => $account->id,

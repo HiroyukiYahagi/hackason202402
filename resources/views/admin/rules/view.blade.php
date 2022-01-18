@@ -277,6 +277,11 @@ new Vue({
 
 <div class="uk-margin uk-text-right">
   <div class="uk-display-inline-block">
+    <a class="uk-button uk-button-default" uk-toggle href="#tester-modal">
+      アクションをテストする
+    </a>
+  </div>
+  <div class="uk-display-inline-block">
     <form method="post" action="{{route('admin.rules.copy', ['bot' => $bot, 'senario' => $senario, 'rule' => $rule])}}" onsubmit="return confirm('本当にコピーしますか？')">
       <button class="uk-button uk-button-default">
         ルールをコピーする
@@ -289,6 +294,26 @@ new Vue({
       <button class="uk-button uk-button-danger">
         ルールを削除する
       </button>
+      @csrf
+    </form>
+  </div>
+</div>
+
+
+<div id="tester-modal" class="uk-flex-top" uk-modal>
+  <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    <form method="post" action="{{route('admin.rules.test', ['bot' => $bot, 'senario' => $senario, 'rule' => $rule])}}" onsubmit="return confirm('本当にテストしますか？')">
+      <button class="uk-modal-close-default" type="button" uk-close></button>
+      <div class="uk-margin-small">
+        @component("components.input.text", [
+          "label" => "テスターID", "name" => "tester_id", "type" => "text", "required" => true
+        ])@endcomponent
+      </div>
+      <div class="uk-margin-small uk-text-center">
+        <button class="uk-button uk-button-default">
+          アクションをテストする
+        </button>
+      </div>
       @csrf
     </form>
   </div>

@@ -9,6 +9,7 @@ use App\Models\Bot;
 use App\Models\Senario;
 use App\Models\Rule;
 use App\Models\Action;
+use App\Models\Account;
 use Carbon\Carbon;
 
 class RuleService
@@ -96,5 +97,11 @@ class RuleService
     $rule = Rule::find($ruleId);
     $rule->delete();
     return $rule;
+  }
+
+  public function test($ruleId, $testerId){
+    $rule = Rule::find($ruleId);
+    $tester = Account::find($testerId);
+    $rule->doActions($tester);
   }
 }

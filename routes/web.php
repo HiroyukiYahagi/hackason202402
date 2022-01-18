@@ -44,6 +44,7 @@ Route::namespace("Admin")->prefix('admin')->group( function() {
         Route::post('/copy', "RuleController@copy")->name("admin.rules.copy");
         Route::post('/edit', "RuleController@edit")->name("admin.rules.edit");
         Route::post('/delete', "RuleController@delete")->name("admin.rules.delete");
+        Route::post('/test', "RuleController@test")->name("admin.rules.test");
 
         Route::post('/actions', "RuleController@actions")->name("admin.rules.actions");
 

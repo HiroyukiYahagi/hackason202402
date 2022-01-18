@@ -46,7 +46,9 @@ class AccountController extends Controller
     }
 
     public function send(Request $request, Bot $bot, Account $account){
-        $account->sendMessage( json_decode($request->input("messages"), true) );
+        $correctBody = "\$json =<<<EOF\n{ \"messages\": ".$request->input("messages")."}\nEOF;\nreturn \$json;";
+        $msg = eval($correctBody);
+        $account->sendJsonMessage($msg);
         return back()->with("message", "更新しました");
     }
 
