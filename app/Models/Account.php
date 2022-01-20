@@ -190,12 +190,24 @@ class Account extends Model
     }
 
     public function dayAfterActivated($day){
+        $target = $this->activated_at->copy();
+        if( $target->hour < 2 ){
+            $target->setHour(23);
+        }else if( $target->hour < 7 ){
+            $target->setHour(7);
+        }
         $now = now()->subDay($day)->startOfHour();
-        return $this->activated_at >= $now && $this->activated_at < $now->addHour(1);
+        return $target >= $now && $target < $now->addHour(1);
     }
 
     public function dayAfterCreated($day){
+        $target = $this->created_at->copy();
+        if( $target->hour < 2 ){
+            $target->setHour(23);
+        }else if( $target->hour < 7 ){
+            $target->setHour(7);
+        }
         $now = now()->subDay($day)->startOfHour();
-        return $this->created_at >= $now && $this->created_at < $now->addHour(1);
+        return $target >= $now && $target < $now->addHour(1);
     }
 }

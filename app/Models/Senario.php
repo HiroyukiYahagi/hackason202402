@@ -24,7 +24,7 @@ class Senario extends Model
     /**
      * @var array
      */
-    protected $fillable = ['bot_id', 'created_at', 'updated_at', 'deleted_at', 'rich_menu', 'condition', 'name', 'priority', 'is_valid', 'rich_menu_id', 'rich_menu_url'];
+    protected $fillable = ['bot_id', 'created_at', 'updated_at', 'deleted_at', 'rich_menu', 'condition', 'name', 'priority', 'is_valid', 'rich_menu_id', 'rich_menu_url', 'error_msg'];
 
 
     public function setConditionAttribute($value){
@@ -92,12 +92,27 @@ class Senario extends Model
         }else{
             $account->lastBotMessage->action->rule->reactActions( $account, $message );
 
-            $this->validRules()->where("rule_type", Rule::REPLY)->get()->each(function( $rule ) use ( $account, $message ){
+            $reply = false;
+            $this->validRules()->where("rule_type", Rule::REPLY)->get()->each(function( $rule ) use ( $account, $message, &$reply ){
                 if($rule->isApplicable( $account, $message )){
                     $rule->doActions( $account, $message );
                     $rule->increment("applied_count");
+                    $reply = true;
                 }
             });
+            if( !$reply && $this->error_msg != null ){
+                \DB::beginTransaction();
+                try{
+                    $correctBody = "\$json =<<<EOF\n{ \"messages\": ".$this->error_msg."}\nEOF;\nreturn \$json;";
+                    $msg = eval($correctBody);
+                    \DB::rollBack();
+
+                    $messageData = $account->sendJsonMessage($msg);
+                }catch(\Exception $e){
+                    \DB::rollBack();
+                    \Log::warn($e->getResponse()->getBody()->getContents());
+                }
+            }
         }
     }
 

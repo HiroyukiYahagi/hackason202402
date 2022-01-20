@@ -88,6 +88,18 @@
           ])@endcomponent
         </td>
       </tr>
+      <tr>
+        <td class="uk-width-medium">
+          <span class="uk-text-bold">
+            フォールバックメッセージ
+          </span>
+        </td>
+        <td>
+          @component("components.input.code", [
+            "label" => null, "name" => "error_msg", "value" => $senario->error_msg
+          ])@endcomponent
+        </td>
+      </tr>
     </tbody>
   </table>
   <div class="uk-margin uk-text-center">
