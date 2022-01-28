@@ -47,6 +47,7 @@ class PushMessageCommand extends Command
                 $accounts->each(function($account) use ($rule){
                     if( $rule->isApplicable( $account ) ){
                         $rule->doActions( $account );
+                        $rule->increment("applied_count");
                     }
                 });
             });
