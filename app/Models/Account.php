@@ -210,4 +210,18 @@ class Account extends Model
         $now = now()->subDay($day)->startOfHour();
         return $target >= $now && $target < $now->addHour(1);
     }
+
+    public function dayWithActivatedHour($day){
+        if( $day != now()->format("Y-m-d") ){
+            return false;
+        }
+        $target = $this->created_at->copy();
+        if( $target->hour < 2 ){
+            $target->setHour(23);
+        }else if( $target->hour < 7 ){
+            $target->setHour(7);
+        }
+        $now = now()->startOfHour();
+        return $target->hour == $now->hour;
+    }
 }
