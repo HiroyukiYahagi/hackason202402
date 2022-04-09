@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bacc4ecae5072103556b7eec5f0c0836",
+    "content-hash": "42db199821697a66bdf214aec29a1994",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2191,6 +2191,60 @@
                 "source": "https://github.com/paragonie/random_compat"
             },
             "time": "2020-10-15T08:29:30+00:00"
+        },
+        {
+            "name": "payjp/payjp-php",
+            "version": "1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/payjp/payjp-php.git",
+                "reference": "41f149620e403a1c6e70b174d6652145b3e3a8d9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/payjp/payjp-php/zipball/41f149620e403a1c6e70b174d6652145b3e3a8d9",
+                "reference": "41f149620e403a1c6e70b174d6652145b3e3a8d9",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~5.7 || ~9.5",
+                "squizlabs/php_codesniffer": "~3.6"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.1.*-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Payjp\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Payjp and contributors",
+                    "homepage": "https://github.com/payjp/payjp-php/graphs/contributors"
+                }
+            ],
+            "description": "Payjp PHP Library",
+            "homepage": "https://pay.jp/",
+            "keywords": [
+                "api",
+                "payjp",
+                "payment processing"
+            ],
+            "time": "2021-10-08T06:40:12+00:00"
         },
         {
             "name": "phpoption/phpoption",
