@@ -38,4 +38,10 @@
   </form>
 </div>
 
+<div class="uk-margin uk-text-center">
+  <a href="{{ url()->previous() }}">
+    ≪ 戻る
+  </a>
+</div>
+
 @endsection
