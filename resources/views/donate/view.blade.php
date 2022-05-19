@@ -164,7 +164,7 @@ let vm = new Vue( {
     plans: [
       { tag: "ss", price: 500, cta:"支援の気持ちワンコイン" },
       { tag: "s", price: 2000, cta:"およそ2週間分のごはん代" },
-      { tag: "m", price: 5000, cta:"およそ1ヶ月分のごはん代", is_recommend: true },
+      { tag: "m", price: 5000, cta:"およそ1ヶ月分のごはん代" },
       { tag: "l", price: 20000, cta:"ワクチン・避妊去勢手術費" },
     ],
     price: 5000,
@@ -188,8 +188,8 @@ let vm = new Vue( {
       if( filted.length > 0 ){
         this.price = filted[0].price
       }else{
-        this.custom_price = 3000
-        this.price = 3000
+        this.custom_price = 2500
+        this.price = 2500
       }
     },
     price: function(){
@@ -202,6 +202,7 @@ let vm = new Vue( {
       this.card_cvc = this.toHankaku(this.card_cvc)
     },
     custom_price: function(){
+      this.custom_price = this.toHankaku(this.custom_price)
       let _this = this;
       _this.plan = "custom";
       this.plans.map( function(plan){
@@ -209,6 +210,7 @@ let vm = new Vue( {
           _this.plan = plan.tag
         }
       })
+      this.price = this.custom_price
     },
   },
   methods: {
