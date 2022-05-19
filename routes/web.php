@@ -71,10 +71,11 @@ Route::namespace("Admin")->prefix('admin')->group( function() {
 });
 
 Route::prefix('donate')->group( function() {
+  Route::get('/thanks/{donate}', "DonateController@thanks")->name("donate.thanks");
+
   Route::get('/{hash}', "DonateController@view")->name("donate.view");
   Route::post('/{hash}', "DonateController@toConfirm");
   Route::get('/{hash}/confirm', "DonateController@confirm")->name("donate.confirm");
   Route::post('/{hash}/submit', "DonateController@submit")->name("donate.submit");
-  Route::get('/{hash}/thanks', "DonateController@thanks")->name("donate.thanks");
 });
 

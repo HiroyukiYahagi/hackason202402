@@ -68,19 +68,13 @@ class DonateController extends Controller
 
         $donate = Donate::create($donate);
         return redirect()->route("donate.thanks", [
-            "hash" => $hash
+            "donate" => $donate
         ]);
     }
 
-    public function thanks($hash){
-        $donate = Donate::where("hash", $hash)->first();
-        if( $donate == null ){
-            return redirect()->route("donate.view", [
-                "hash" => $hash
-            ]);
-        }
+    public function thanks(Donate $donate){
         return view("donate.thanks", [
-            "hash" => $hash, "donate" => $donate
+            "donate" => $donate
         ]);
     }
 }
