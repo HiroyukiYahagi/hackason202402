@@ -17,7 +17,7 @@ class DonateController extends Controller
 
     public function view($hash){
         return view("donate.view", [
-            "hash" => $hash
+            "hash" => $hash, "title" => "寄附金申請フォーム | ワニニャル(WANINYARIU)"
         ]);
     }
 
@@ -37,7 +37,7 @@ class DonateController extends Controller
             ]);
         }
         return view("donate.confirm", [
-            "donate" => $donate, "hash" => $hash
+            "donate" => $donate, "hash" => $hash, "title" => "内容確認 | 寄附金申請フォーム | ワニニャル(WANINYARIU)"
         ]);
     }
 
@@ -74,7 +74,7 @@ class DonateController extends Controller
 
     public function thanks(Donate $donate){
         return view("donate.thanks", [
-            "donate" => $donate
+            "donate" => $donate, "title" => "ありがとうございました | 寄附金申請フォーム | ワニニャル(WANINYARIU)"
         ]);
     }
 }

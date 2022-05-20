@@ -140,7 +140,7 @@
       <p v-html="error_message"></p>
     </div>
     <div class="uk-margin uk-text-center">
-      <button class="uk-button uk-button-primary uk-button-large uk-width-medium uk-text-bold" type="button" v-bind:disabled="!catSubmit()" v-on:click="onSubmit()">
+      <button class="uk-button uk-button-primary uk-button-large uk-width-medium uk-text-bold" type="button" v-bind:disabled="!canSubmit()" v-on:click="onSubmit()">
         確認画面に進む
       </button>
     </div>
@@ -159,26 +159,36 @@ Payjp.setPublicKey("{{config('services.payjp.public')}}");
 <script type="text/javascript">
 let vm = new Vue( {
   el: '#donate-form',
-  data: {
-    plan: "m",
-    plans: [
-      { tag: "ss", price: 500, cta:"支援の気持ちワンコイン" },
-      { tag: "s", price: 2000, cta:"およそ2週間分のごはん代" },
-      { tag: "m", price: 5000, cta:"およそ1ヶ月分のごはん代" },
-      { tag: "l", price: 20000, cta:"ワクチン・避妊去勢手術費" },
-    ],
-    price: 5000,
-    showPrice: false,
-    custom_price: null,
-    name: "",
-    card_number: "",
-    card_cvc: "",
-    card_year: 2025,
-    card_month: 6,
-    payment_type: 0,
-    payment_token: "",
-    error_message: "",
-    is_agreed: true
+  data: function(){
+    let data = {
+      plan: "m",
+      plans: [
+        { tag: "ss", price: 500, cta:"支援の気持ちワンコイン" },
+        { tag: "s", price: 2000, cta:"およそ2週間分のごはん代" },
+        { tag: "m", price: 5000, cta:"およそ1ヶ月分のごはん代" },
+        { tag: "l", price: 20000, cta:"ワクチン・避妊去勢手術費" },
+      ],
+      price: 5000,
+      showPrice: false,
+      custom_price: null,
+      name: "",
+      card_number: "",
+      card_cvc: "",
+      card_year: 2025,
+      card_month: 6,
+      payment_type: 0,
+      payment_token: "",
+      error_message: "",
+      is_agreed: true
+    };
+    let sessions = @json(session('donate'));
+    if( sessions != null && typeof sessions === 'object' ){
+      data.name = sessions.name != null ? sessions.name : data.name;
+      data.custom_price = sessions.price != null ? sessions.price : sessions.custom_price;
+      data.price = sessions.price != null ? sessions.price : data.price;
+      data.plan = sessions.price != null ? "custom" : data.plan;
+    }
+    return data;
   },
   watch: {
     plan: function(n, o){
@@ -188,8 +198,7 @@ let vm = new Vue( {
       if( filted.length > 0 ){
         this.price = filted[0].price
       }else{
-        this.custom_price = 2500
-        this.price = 2500
+        this.price = this.custom_price  
       }
     },
     price: function(){
@@ -203,23 +212,44 @@ let vm = new Vue( {
     },
     custom_price: function(){
       this.custom_price = this.toHankaku(this.custom_price)
-      let _this = this;
-      _this.plan = "custom";
-      this.plans.map( function(plan){
-        if(_this.custom_price == plan.price){
-          _this.plan = plan.tag
-        }
-      })
+      this.plan = "custom";
       this.price = this.custom_price
     },
   },
+  beforeUpdate: function(){
+    this.setErrorMessage();
+  },
   methods: {
     toHankaku: function (v) {
+      if( v == null ){
+        return v;
+      }
+      v = ""+v;
       return v.replace("ー", "-").replace("•", "・").replace("–", "-").replace("‐", "-")
         .replace(/[\u200B-\u200D\uFEFF\u202A-\u202E]/g, '')
         .replace(/[Ａ-Ｚａ-ｚ０-９＠]/g, function(s) { 
           return String.fromCharCode(s.charCodeAt(0) - 65248); 
         });
+    },
+    setErrorMessage: function(){
+      var errors = [];
+      if( !this.is_agreed ){
+         errors.push("・利用規約への同意が必要です");
+      }
+      if( this.price == null || this.price < 50 ){
+         errors.push("・50円以上をご選択ください");
+      }
+      if( this.name.length == 0 ){
+         errors.push("・お名前をご記載ください");
+      }
+      if( this.card_number.length == 0 || this.card_cvc.length == 0 ){
+         errors.push("・カード情報をご入力ください");
+      }
+      if( errors.length == 0 ){
+        this.error_message = "";
+        return;  
+      }
+      this.error_message = "以下の内容をご確認ください。<br/>" + errors.join("<br/>");
     },
     onSubmit: function(){
       var card = {
@@ -230,7 +260,6 @@ let vm = new Vue( {
       };
       let _this = this;
       Payjp.createToken(card, function(status, response) {
-        console.log(response);
         if (status == 200) {
           _this.payment_token = response.id;
           _this.$nextTick(function() {
@@ -258,8 +287,8 @@ let vm = new Vue( {
         };
       });
     },
-    catSubmit: function(){
-      return this.price > 0 && this.card_number.length > 14 && this.card_cvc.length > 2 && this.name.length > 0 && this.is_agreed
+    canSubmit: function(){
+      return this.price >= 50 && this.card_number.length > 14 && this.card_cvc.length > 2 && this.name.length > 0 && this.is_agreed
     }
   }
 });
