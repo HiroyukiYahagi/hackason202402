@@ -64,6 +64,9 @@ class DonateController extends Controller
           \Log::warn($e);
           session()->flash("error", "クレジットカードが利用できません");
           session()->flash("error_detail", "・有効期限が切れている\n・入力したカード情報に誤りがある\n・利用残高が不足している\n\nなどの理由で決済できませんでした。\nお手数おかけしますが入力した内容や利用残高を確認し再度ご入力ください。");
+          return redirect()->route("donate.view", [
+                "hash" => $hash
+          ]);
         }
 
         $donate = Donate::create($donate);
