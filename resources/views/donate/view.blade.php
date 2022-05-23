@@ -166,6 +166,7 @@ let vm = new Vue( {
         { tag: "ss", price: 500, cta:"支援の気持ちワンコイン" },
         { tag: "s", price: 2000, cta:"およそ2週間分のごはん代" },
         { tag: "m", price: 5000, cta:"およそ1ヶ月分のごはん代" },
+        { tag: "ml", price: 10000, cta:"ボランティア・運営費支援" },
         { tag: "l", price: 20000, cta:"ワクチン・避妊去勢手術費" },
       ],
       price: 5000,
@@ -187,6 +188,12 @@ let vm = new Vue( {
       data.custom_price = sessions.price != null ? sessions.price : sessions.custom_price;
       data.price = sessions.price != null ? sessions.price : data.price;
       data.plan = sessions.price != null ? "custom" : data.plan;
+      for( let index in data.plans ){
+        if( data.plans[index].price == data.price ){
+          data.plan = data.plans[index].tag;
+        }
+      }
+      
     }
     return data;
   },
