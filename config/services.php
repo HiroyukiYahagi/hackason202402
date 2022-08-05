@@ -47,6 +47,19 @@ return [
     'payjp' => [
         'public' => env('PAYJP_PUBLIC_KEY'),
         'private' => env('PAYJP_PRIVATE_KEY'),
-    ]
+    ],
+
+    'logizard' => [
+        "app_key" => env('LOGIZARD_APPKEY'),
+        "auth_key" => env('LOGIZARD_AUTHKEY'),
+        "owner_id" => env('LOGIZARD_OWNERID'),
+        "area" => [
+            "maruhi" => env('LOGIZARD_MARUHI'),
+            "miraku" => env('LOGIZARD_MIRAKU'),
+            "kyusyu" => env('LOGIZARD_KYUSYU'),
+            "nigata" => env('LOGIZARD_NIGATA'),
+        ],
+        "base_path" => env('LOGIZARD_BASEPATH')
+    ],
 
 ];
