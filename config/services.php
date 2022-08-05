@@ -62,4 +62,9 @@ return [
         "base_path" => env('LOGIZARD_BASEPATH')
     ],
 
+    'relation' => [
+        'token' => env('RELATION_TOKEN'),
+        'url' => env('RELATION_URL'),
+    ],
+
 ];
