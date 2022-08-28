@@ -88,29 +88,15 @@
     <div class="uk-margin">
       <label class="uk-form-label" for="form-stacked-text">カード番号<span class="uk-label uk-label-danger uk-margin-small-left">必須</span></label>
       <div class="uk-form-controls uk-margin-small">
-        <input class="uk-input uk-form-large uk-border-rounded" type="number" placeholder="カード番号を入力してください" v-model="card_number">
+        <div id="v2_card_number" class="uk-input" style="padding: 10px;"></div>
       </div>
     </div>
 
     <div class="uk-margin uk-grid-small" uk-grid>
       <div class="uk-width-1-2">
-        <label class="uk-form-label" for="form-stacked-text">月</label>
+        <label class="uk-form-label" for="form-stacked-text">有効期限 ※月(2桁)/年(下2桁)</label>
         <div class="uk-form-controls uk-margin-small">
-          <select class="uk-select uk-form-large" v-model="card_month">
-            @for( $i=1; $i<=12; $i++ )
-            <option value="{{ $i }}">{{ $i }}月</option>
-            @endfor
-          </select>
-        </div>
-      </div>
-      <div class="uk-width-1-2">
-        <label class="uk-form-label" for="form-stacked-text">年</label>
-        <div class="uk-form-controls uk-margin-small">
-          <select class="uk-select uk-form-large" v-model="card_year">
-            @for( $i=2022; $i<=2045; $i++ )
-            <option value="{{ $i }}">{{ $i }}年</option>
-            @endfor
-          </select>
+          <div id="v2_card_expiry" class="uk-input" style="padding: 10px;"></div>
         </div>
       </div>
     </div>
@@ -119,7 +105,7 @@
       <div class="uk-width-1-2">
         <label class="uk-form-label" for="form-stacked-text">CVC<span class="uk-label uk-label-danger uk-margin-small-left">必須</span></label>
         <div class="uk-form-controls uk-margin-small">
-          <input class="uk-input uk-form-large uk-border-rounded" type="number" placeholder="CVCを入力してください" v-model="card_cvc">
+          <div id="v2_card_cvc" class="uk-input" style="padding: 10px;"></div>
         </div>
       </div>
       <div class="uk-width-1-5">
@@ -151,10 +137,12 @@
   </form>
 </div>
 
-<script type="text/javascript" src="https://js.pay.jp/"></script>
-<script type="text/javascript">
-Payjp.setPublicKey("{{config('services.payjp.public')}}");
-</script>
+@include('components.common.payjpv2', [
+  'id' => "payjp_change_card",
+  'elements' => [
+    'cardNumber' => "v2_card_number", 'cardExpiry' => "v2_card_expiry", 'cardCvc' => "v2_card_cvc"
+  ]
+])
 
 <script type="text/javascript">
 let vm = new Vue( {
@@ -249,9 +237,9 @@ let vm = new Vue( {
       if( this.name.length == 0 ){
          errors.push("・お名前をご記載ください");
       }
-      if( this.card_number.length == 0 || this.card_cvc.length == 0 ){
-         errors.push("・カード情報をご入力ください");
-      }
+      // if( this.card_number.length == 0 || this.card_cvc.length == 0 ){
+      //    errors.push("・カード情報をご入力ください");
+      // }
       if( errors.length == 0 ){
         this.error_message = "";
         return;  
@@ -259,14 +247,8 @@ let vm = new Vue( {
       this.error_message = "以下の内容をご確認ください。<br/>" + errors.join("<br/>");
     },
     onSubmit: function(){
-      var card = {
-        number: this.card_number,
-        cvc: this.card_cvc,
-        exp_month: this.card_month,
-        exp_year: this.card_year
-      };
       let _this = this;
-      Payjp.createToken(card, function(status, response) {
+      payjp_change_card.createToken(function(status, response) {
         if (status == 200) {
           _this.payment_token = response.id;
           _this.$nextTick(function() {
@@ -295,7 +277,7 @@ let vm = new Vue( {
       });
     },
     canSubmit: function(){
-      return this.price >= 50 && this.card_number.length > 14 && this.card_cvc.length > 2 && this.name.length > 0 && this.is_agreed
+      return this.price >= 50 && this.name.length > 0 && this.is_agreed
     }
   }
 });
