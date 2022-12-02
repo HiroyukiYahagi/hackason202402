@@ -52,7 +52,7 @@ class Action extends Model
     }
 
     public function do(Account $account, Message $message=null){
-        $account->load(["properties.label"]);
+        $account->load(["properties.label", "senario", "bot"]);
 
         switch( $this->action_type ){
         case $this::SEND_MESSAGE:

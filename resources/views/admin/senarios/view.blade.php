@@ -38,6 +38,20 @@
       <tr>
         <td class="uk-width-medium">
           <span class="uk-text-bold">
+            パラメータ
+          </span>
+        </td>
+        <td>
+          <div class="uk-width-large">
+            @component("components.input.text", [
+              "label" => null, "name" => "query_label", "type" => "text", "value" => $senario->query_label
+            ])@endcomponent
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="uk-width-medium">
+          <span class="uk-text-bold">
             優先順位(小さい方が優先)
           </span>
         </td>

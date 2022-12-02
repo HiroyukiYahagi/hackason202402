@@ -80,6 +80,20 @@
       <tr>
         <td class="uk-width-medium">
           <span class="uk-text-bold">
+            パラメータ
+          </span>
+        </td>
+        <td>
+          <div class="uk-width-large">
+            @component("components.input.text", [
+              "label" => null, "name" => "query_label", "type" => "text", "value" => $bot->query_label
+            ])@endcomponent
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="uk-width-medium">
+          <span class="uk-text-bold">
             Webhook URL
           </span>
         </td>

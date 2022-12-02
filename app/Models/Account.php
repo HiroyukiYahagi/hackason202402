@@ -30,7 +30,7 @@ class Account extends Model
     /**
      * @var array
      */
-    protected $fillable = ['bot_id', 'senario_id', 'created_at', 'updated_at', 'deleted_at', 'hash', 'name', 'reply_token', 'blocked_at', "token_updated_at", "activated_at"];
+    protected $fillable = ['bot_id', 'senario_id', 'created_at', 'updated_at', 'deleted_at', 'hash', 'name', 'reply_token', 'blocked_at', "token_updated_at", "activated_at", 'query_label'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -223,5 +223,9 @@ class Account extends Model
         }
         $now = now()->startOfHour();
         return $target->hour == $now->hour;
+    }
+
+    public function getQueryParamsAttribute(){
+        return "&utm_source=line&utm_medium=social&utm_campaign=bot_".$this->bot->query_label."&utm_content=".$this->senario->query_label."&code=".$this->senario->query_label."&bot_account_id=".$this->id;
     }
 }
