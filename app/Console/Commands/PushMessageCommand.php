@@ -42,7 +42,10 @@ class PushMessageCommand extends Command
     {
         $this->info("start push message");
         
-        Rule::with(["actions"])->where("is_valid", 1)->where("rule_type", Rule::HOURLY)->get()->each( function($rule){
+        Rule::with(["actions", "senario"])->where("is_valid", 1)->where("rule_type", Rule::HOURLY)->get()->each( function($rule){
+            if($rule->senario == null){
+                return;
+            }
            $rule->senario->accounts()->whereNull("blocked_at")->chunk(100, function($accounts) use ($rule){
                 $accounts->each(function($account) use ($rule){
                     if( $rule->isApplicable( $account ) ){
