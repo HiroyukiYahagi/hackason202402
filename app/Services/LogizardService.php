@@ -64,11 +64,12 @@ class LogizardService
               $header = explode(",", $row);
               continue;
             }
-            $ret[$index] = [];
+            $rs = [];
             $r = explode(",", $row);
             foreach( $r as $idx => $d ){
-              $ret[$index][ $header[$idx] ] = $d;
+              $rs[ $header[$idx] ] = $d;
             }
+            $ret[]  = $rs;
           }
           return $ret;
         }
