@@ -56,6 +56,23 @@ class LogizardService
       }
       $result = $result["DATA"];
       if( $level != null ){
+        if( $level == "EXPORT_DATA" ){
+          $header = [];
+          $ret = [];
+          foreach( $result[$level] as $index => $row ){
+            if( $index == 0 ){
+              $header = explode(",", $row);
+              continue;
+            }
+            $ret[$index] = [];
+            $r = explode(",", $row);
+            foreach( $r as $idx => $d ){
+              $ret[$index][ $header[$idx] ] = $d;
+            }
+          }
+          return $ret;
+        }
+
         $level = explode(".", $level);
         foreach( $level as $l ){
           $result = $result[$l];
