@@ -19,7 +19,7 @@ class CreateStoresTable extends Migration
             $table->bigIncrements('id');
             $table->timestamps();
             $table->dateTime('arrival_confirmed_at')->nullable();
-            $table->string('other_slip_num')->nullable();
+            // $table->string('other_slip_num')->nullable();
             foreach(Stores::LOGI_HEADER as $key => $para){
                 $table->text($para)->nullable();
             }
