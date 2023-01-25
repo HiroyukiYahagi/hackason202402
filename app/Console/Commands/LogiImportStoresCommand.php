@@ -69,6 +69,7 @@ class LogiImportStoresCommand extends Command
                 $from = $from->addDay(30);
 
                 if(isset($result["ERROR_CODE"])){
+                    var_dump($result);
                     continue;
                 }
 
