@@ -6,6 +6,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 use App\Console\Commands\PushMessageCommand;
+use App\Console\Commands\LogiImportStoresCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -26,6 +27,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command(PushMessageCommand::class)->hourlyAt(30);
+
+        $schedule->command(LogiImportStoresCommand::class)->dailyAt('3:02');
     }
 
     /**

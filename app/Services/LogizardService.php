@@ -67,7 +67,7 @@ class LogizardService
             $rs = [];
             $r = explode(",", $row);
             foreach( $r as $idx => $d ){
-              $rs[ $header[$idx] ] = $d;
+              $rs[  str_replace('"', '', $header[$idx]) ] = str_replace('"', '', $d);
             }
             $ret[]  = $rs;
           }
