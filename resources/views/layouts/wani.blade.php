@@ -12,4 +12,7 @@
 
 @include("components.common.message")
 
+
+@include("layouts.footer")
+
 @endsection

@@ -17,6 +17,10 @@ class RootController extends Controller
         return view("index");
     }
 
+    public function law(){
+        return view("law");
+    }
+
     public function account(Request $request, $hash){
         $account = Account::where("hash", $hash)->firstOrFail();
         return view("account", [

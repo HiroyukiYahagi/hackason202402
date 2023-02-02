@@ -1,6 +1,7 @@
 <?php
 
 Route::get('/', "RootController@index")->name("root.index");
+Route::get('/law', "RootController@law")->name("root.law");
 
 Route::get('/accounts/{hash}', "RootController@account")->name("accounts.view");
 Route::post('/accounts/{hash}/edit', "RootController@editAccount")->name("accounts.edit");
