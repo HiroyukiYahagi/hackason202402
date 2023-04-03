@@ -116,7 +116,7 @@ class Account extends Model
         try {
             $client = new RequestClient();
             $response = $client->post($url, [
-                'debug' => true,
+                // 'debug' => true,
                 'headers' => [
                   'Authorization' => 'Bearer '.$this->bot->channel_access_token
                 ],

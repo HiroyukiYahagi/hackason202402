@@ -54,9 +54,9 @@ class FacebookAdResultService
                 // "fields" => ["impressions","conversions"],
                 "fields" => "campaign_id,campaign_name,adset_id,adset_name,ad_id,ad_name,spend,frequency,impressions,clicks,outbound_clicks,conversions,quality_ranking,actions",
 
-                "filtering" => [
-                    ["field" => "ad.name", "operator" => "CONTAIN", "value" => "ad000890"]
-                ],
+                // "filtering" => [
+                //     ["field" => "ad.name", "operator" => "CONTAIN", "value" => "ad000890"]
+                // ],
 
                 "time_increment" => 1,
                 // "date_preset" => "yesterday",

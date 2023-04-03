@@ -17,7 +17,7 @@ class LineBotService
     try {
         $client = new RequestClient();
         $response = $client->get("https://api.line.me/v2/bot/profile/".$account->hash, [
-            'debug' => true,
+            // 'debug' => true,
             'headers' => [
               'Authorization' => 'Bearer '.$bot->channel_access_token
             ],
@@ -135,7 +135,7 @@ class LineBotService
     try {
         $client = new RequestClient();
         $response = $client->post("https://api.line.me/v2/bot/richmenu", [
-            'debug' => true,
+            // 'debug' => true,
             'headers' => [
               'Authorization' => 'Bearer '.$bot->channel_access_token
             ],
@@ -159,7 +159,7 @@ class LineBotService
 
         if( $isDefault ){
           $response = $client->post("https://api.line.me/v2/bot/user/all/richmenu/".$result["richMenuId"], [
-              'debug' => true,
+              // 'debug' => true,
               'headers' => [
                 'Authorization' => 'Bearer '.$bot->channel_access_token
               ]
