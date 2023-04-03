@@ -55,7 +55,7 @@ class PushMessageCommand extends Command
             }
             $rule->senario->accounts()->whereNull("blocked_at")->chunk(100, function($accounts) use ($rule){
                 $accounts->each(function($account) use ($rule){
-                    $this->info( "account id: ".$account->id);
+                    // $this->info( "account id: ".$account->id);
                     if( $rule->isApplicable( $account ) ){
                         $rule->doActions( $account );
                         $rule->increment("applied_count");
