@@ -13,7 +13,7 @@ class CreateMetaAdsTable extends Migration
      */
     public function up()
     {
-        Schema::connection('coco_db')->create('meta_ad_results', function (Blueprint $table) {
+        Schema::create('meta_ad_results', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
 
