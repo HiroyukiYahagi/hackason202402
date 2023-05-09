@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 use App\Services\LogizardService;
 use App\Services\RelationService;
+use App\Models\Ranking;
 
 class OutboundController extends Controller
 {
@@ -27,5 +28,24 @@ class OutboundController extends Controller
     function relation(Request $request){
         $result = $this->relationService->getData( $request->input("path"), $request->input("method"), $request->all() );
         return response()->json($result);
+    }
+
+    function rankings(Request $request){
+        $rank = Ranking::where("name", $request->input("name"))->first();
+
+        $cnt = isset($rank) ? $rank->registered_cnt : 0;
+
+        $ranking = Ranking::where("registered_cnt", ">", $cnt)->count() + 1;
+
+        $max = Ranking::sum("registered_cnt");
+
+        $cnt ++;
+        $max ++;
+
+        return response()->json([
+            "name" => $request->input("name"),
+            "registered_cnt" => floor($cnt / $max * 7000000),
+            "ranking" => $ranking
+        ]);
     }
 }
