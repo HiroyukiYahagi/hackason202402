@@ -38,7 +38,7 @@ class OutboundController extends Controller
         $ranking = Ranking::where("registered_cnt", ">", $cnt)->count() + 1;
 
         $next = Ranking::where("registered_cnt", ">", $cnt)->orderBy("registered_cnt", "ASC")->first();
-        $previous = Ranking::where("registered_cnt", "<=", $cnt)->where("id", "<>", $ranking->id)->orderBy("registered_cnt", "DESC")->first();
+        $previous = Ranking::where("registered_cnt", "<=", $cnt)->where("id", "<>", optional($rank)->id)->orderBy("registered_cnt", "DESC")->first();
 
         $max = Ranking::sum("registered_cnt");
 
