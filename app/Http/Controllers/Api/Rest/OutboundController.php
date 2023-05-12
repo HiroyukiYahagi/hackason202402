@@ -49,8 +49,12 @@ class OutboundController extends Controller
             "name" => $request->input("name"),
             "registered_cnt" => floor($cnt / $max * 7000000),
             "ranking" => $ranking,
-            "next" => $next,
-            "previous" => $previous,
+            "next" => isset($next) ? [
+                "name" => $next->name, "registered_cnt" => floor($next->registered_cnt / $max * 7000000),
+            ] : null,
+            "previous" => isset($previous) ? [
+                "name" => $previous->name, "registered_cnt" => floor($previous->registered_cnt / $max * 7000000),
+            ] : null
         ]);
     }
 }
