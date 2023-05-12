@@ -37,6 +37,9 @@ class OutboundController extends Controller
 
         $ranking = Ranking::where("registered_cnt", ">", $cnt)->count() + 1;
 
+        $next = Ranking::where("registered_cnt", ">", $cnt)->orderBy("registered_cnt", "ASC")->first();
+        $previous = Ranking::where("registered_cnt", "<=", $cnt)->orderBy("registered_cnt", "DESC")->first();
+
         $max = Ranking::sum("registered_cnt");
 
         $cnt ++;
@@ -45,7 +48,9 @@ class OutboundController extends Controller
         return response()->json([
             "name" => $request->input("name"),
             "registered_cnt" => floor($cnt / $max * 7000000),
-            "ranking" => $ranking
+            "ranking" => $ranking,
+            "next" => $next,
+            "previous" => $previous,
         ]);
     }
 }
