@@ -10,5 +10,5 @@ Route::namespace('Api\Rest')->prefix('/rest/v1')->group( function() {
   Route::get('/relation', 'OutboundController@relation')->name('api.outbound.relation');
 
   Route::get('/rankings', 'OutboundController@rankings')->name('api.outbound.rankings');
-  Route::get('/rankings/image/{name}.jpg', 'OutboundController@rankingsImage')->name('api.outbound.rankings.image');
+  Route::get('/rankings/image/{name}', 'OutboundController@rankingsImage')->name('api.outbound.rankings.image');
 });
