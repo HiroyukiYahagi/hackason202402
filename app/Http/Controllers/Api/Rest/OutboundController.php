@@ -76,7 +76,7 @@ class OutboundController extends Controller
         
         $fontcolor = imagecolorallocate($img, 76, 16, 21);
 
-        $font = public_path().'/images/rankings/YuGothicBold.ttf';
+        $font = base_path().'/YuGothicBold.ttf';
 
         //名前部分
         $text = $name."ちゃん";
