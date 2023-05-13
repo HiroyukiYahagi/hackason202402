@@ -57,4 +57,56 @@ class OutboundController extends Controller
             ] : null
         ]);
     }
+
+    function rankingsImage(Request $request, $name){
+
+        $rank = Ranking::where("name", $name)->first();
+        $cnt = isset($rank) ? $rank->registered_cnt : 0;
+
+        $ranking = Ranking::where("registered_cnt", ">", $cnt)->count() + 1;
+        
+        $max = Ranking::sum("registered_cnt");
+        $cnt ++;
+        $max ++;
+
+        $registered_cnt = floor($cnt / $max * 7000000);
+
+        //既存の画像リソースを読み込む(PNGの場合)
+        $img = imagecreatefromjpeg(public_path().'/images/rankings/base.jpg');
+        
+        $fontcolor = imagecolorallocate($img, 76, 16, 21);
+
+        $font = public_path().'/images/rankings/YuGothicBold.ttf';
+
+        //名前部分
+        $text = $name."ちゃん";
+        $position = imagettfbbox(56, 0, $font, $text);
+        $textWidth = $position[2] - $position[0];
+        $left = - 1 * ($textWidth / 2) + 640;
+        imagettftext($img, 56, 0, $left, 400, $fontcolor, $font, $text);
+
+
+        //頭数
+        $text = "推定".number_format($registered_cnt)."匹";
+        $position = imagettfbbox(56, 0, $font, $text);
+        $textWidth = $position[2] - $position[0];
+        $left = - 1 * ($textWidth / 2) + 640;
+        imagettftext($img, 56, 0, $left, 520, $fontcolor, $font, $text);
+
+
+        //名前部分
+        $text = "第".number_format($ranking)."位";
+        $position = imagettfbbox(36, 0, $font, $text);
+        $textWidth = $position[2] - $position[0];
+        $left = - 1 * ($textWidth / 2) + 640;
+        imagettftext($img, 36, 0, $left, 620, $fontcolor, $font, $text);
+
+
+        //出力する画像の種類のヘッダ情報をつける(以下はPNGの場合)
+        header('Content-Type: image/jpeg');
+
+        //画像をPNG形式のデータとして出力
+        imagejpeg($img);
+        die();
+    }
 }
