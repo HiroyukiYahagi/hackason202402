@@ -72,7 +72,7 @@ class OutboundController extends Controller
         $registered_cnt = floor($cnt / $max * 7000000);
 
         //既存の画像リソースを読み込む(PNGの場合)
-        $img = imagecreatefromjpeg(public_path().'/images/rankings/base.jpg');
+        $img = imagecreatefromjpeg(public_path().'/images/rankings/base_2.jpg');
         
         $fontcolor = imagecolorallocate($img, 76, 16, 21);
 
@@ -80,26 +80,26 @@ class OutboundController extends Controller
 
         //名前部分
         $text = $name."ちゃん";
-        $position = imagettfbbox(56, 0, $font, $text);
+        $position = imagettfbbox(48, 0, $font, $text);
         $textWidth = $position[2] - $position[0];
-        $left = - 1 * ($textWidth / 2) + 640;
-        imagettftext($img, 56, 0, $left, 400, $fontcolor, $font, $text);
+        $left = - 1 * ($textWidth / 2) + 600;
+        imagettftext($img, 48, 0, $left, 340, $fontcolor, $font, $text);
 
 
         //頭数
         $text = "推定".number_format($registered_cnt)."匹";
-        $position = imagettfbbox(56, 0, $font, $text);
+        $position = imagettfbbox(48, 0, $font, $text);
         $textWidth = $position[2] - $position[0];
-        $left = - 1 * ($textWidth / 2) + 640;
-        imagettftext($img, 56, 0, $left, 520, $fontcolor, $font, $text);
+        $left = - 1 * ($textWidth / 2) + 600;
+        imagettftext($img, 48, 0, $left, 440, $fontcolor, $font, $text);
 
 
         //名前部分
         $text = "第".number_format($ranking)."位";
         $position = imagettfbbox(36, 0, $font, $text);
         $textWidth = $position[2] - $position[0];
-        $left = - 1 * ($textWidth / 2) + 640;
-        imagettftext($img, 36, 0, $left, 620, $fontcolor, $font, $text);
+        $left = - 1 * ($textWidth / 2) + 600;
+        imagettftext($img, 36, 0, $left, 540, $fontcolor, $font, $text);
 
 
         //出力する画像の種類のヘッダ情報をつける(以下はPNGの場合)
