@@ -72,34 +72,34 @@ class OutboundController extends Controller
         $registered_cnt = floor($cnt / $max * 7000000);
 
         //既存の画像リソースを読み込む(PNGの場合)
-        $img = imagecreatefromjpeg(public_path().'/images/rankings/base_2.jpg');
+        $img = imagecreatefromjpeg(public_path().'/images/rankings/base_3.jpg');
         
         $fontcolor = imagecolorallocate($img, 76, 16, 21);
 
         $font = base_path().'/YuGothicBold.ttf';
 
         //名前部分
-        $text = $name."ちゃん";
+        $text = $name."ちゃんは";
         $position = imagettfbbox(48, 0, $font, $text);
         $textWidth = $position[2] - $position[0];
         $left = - 1 * ($textWidth / 2) + 600;
-        imagettftext($img, 48, 0, $left, 340, $fontcolor, $font, $text);
+        imagettftext($img, 48, 0, $left, 260, $fontcolor, $font, $text);
 
 
         //頭数
-        $text = "推定".number_format($registered_cnt)."匹";
-        $position = imagettfbbox(48, 0, $font, $text);
+        $text = "全国におよそ".number_format($registered_cnt)."ワンいます";
+        $position = imagettfbbox(32, 0, $font, $text);
         $textWidth = $position[2] - $position[0];
         $left = - 1 * ($textWidth / 2) + 600;
-        imagettftext($img, 48, 0, $left, 440, $fontcolor, $font, $text);
+        imagettftext($img, 32, 0, $left, 560, $fontcolor, $font, $text);
 
 
         //名前部分
-        $text = "第".number_format($ranking)."位";
-        $position = imagettfbbox(36, 0, $font, $text);
+        $text = number_format($ranking);
+        $position = imagettfbbox(120, 0, $font, $text);
         $textWidth = $position[2] - $position[0];
-        $left = - 1 * ($textWidth / 2) + 600;
-        imagettftext($img, 36, 0, $left, 540, $fontcolor, $font, $text);
+        $left = 620 - 1 * $textWidth;
+        imagettftext($img, 120, 0, $left, 450, $fontcolor, $font, $text);
 
 
         //出力する画像の種類のヘッダ情報をつける(以下はPNGの場合)
