@@ -58,6 +58,8 @@ return [
             "miraku" => env('LOGIZARD_MIRAKU'),
             "kyusyu" => env('LOGIZARD_KYUSYU'),
             "nigata" => env('LOGIZARD_NIGATA'),
+            "saitama" => env('LOGIZARD_SAITAMA'),
+            "osaka" => env('LOGIZARD_OSAKA'),
         ],
         "base_path" => env('LOGIZARD_BASEPATH')
     ],

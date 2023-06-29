@@ -57,7 +57,7 @@ class LogiImportStoresCommand extends Command
 
         while ( $from < $to ) {
 
-            foreach( [ "miraku", "maruhi", "kyusyu", "nigata" ] as $area ){
+            foreach( config("services.logizard.area") as $area => $key ){
                 $result = $this->logizardService->getData($area, "/common/export/export", "EXPORT_DATA", [
                     "FILE_ID" => 1,
                     "PTRN_ID" => -1,
