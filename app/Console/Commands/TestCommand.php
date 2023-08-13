@@ -52,20 +52,20 @@ class TestCommand extends Command
         // $cursor = $account->getCampaigns();
         // var_dump($cursor);
 
-        // $this->facebookAdResultService->sync(now()->subDay(7), now()->subDay(1));
+        $this->facebookAdResultService->sync(now()->subDay(7), now()->subDay(1));
 
 
-        $account = Account::first();
-        $rules = Rule::get();
-        $message = Message::first();
+        // $account = Account::first();
+        // $rules = Rule::get();
+        // $message = Message::first();
 
-        var_dump($rules);
+        // var_dump($rules);
 
-        $rules->each( function($rule) use ($account, $message) {
-            var_dump( $rule->id );
-            $result = $rule->isApplicable( $account, $message );
-            var_dump( "result:".$result );
-        }); 
+        // $rules->each( function($rule) use ($account, $message) {
+        //     var_dump( $rule->id );
+        //     $result = $rule->isApplicable( $account, $message );
+        //     var_dump( "result:".$result );
+        // }); 
 
     }
 }
