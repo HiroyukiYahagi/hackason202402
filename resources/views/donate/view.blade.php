@@ -247,8 +247,11 @@ let vm = new Vue( {
       this.error_message = "以下の内容をご確認ください。<br/>" + errors.join("<br/>");
     },
     onSubmit: function(){
+      console.log("OK");
       let _this = this;
-      payjp_change_card.createToken(function(status, response) {
+      console.log(window.payjp_change_card);
+      window.payjp_change_card.createToken(function(status, response) {
+        console.log(response);
         if (status == 200) {
           _this.payment_token = response.id;
           _this.$nextTick(function() {
