@@ -13,6 +13,29 @@ use GuzzleHttp\Client as RequestClient;
 
 class LineBotService
 {
+
+  public function getAudienceGroups($bot){
+    $url = "https://api.line.me/v2/bot/audienceGroup/list";
+    try {
+        $client = new RequestClient();
+        $response = $client->get($url, [
+            // 'debug' => true,
+            'headers' => [
+              'Authorization' => 'Bearer '.$bot->channel_access_token
+            ],
+            "query" => [
+              "page" => 1
+            ]
+        ]);
+        $result = json_decode((string) $response->getBody(), true);
+        var_dump($result);
+        return $result;
+    } catch (\Exception $e) {
+        \Log::error($e);
+        return null;
+    }
+  }
+
   public function getProfile($bot, $account){
     try {
         $client = new RequestClient();

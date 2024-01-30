@@ -5,9 +5,11 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Services\AdResult\FacebookAdResultService;
 
+use App\Models\Bot;
 use App\Models\Rule;
 use App\Models\Message;
 use App\Models\Account;
+use App\Services\LineBotService;
 
 class TestCommand extends Command
 {
@@ -25,18 +27,18 @@ class TestCommand extends Command
      */
     protected $description = 'Command description';
 
-    protected $facebookAdResultService;
+    protected $lineBotService;
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct(FacebookAdResultService $facebookAdResultService)
+    public function __construct(LineBotService $lineBotService)
     {
         parent::__construct();
 
-        $this->facebookAdResultService = $facebookAdResultService;
+        $this->lineBotService = $lineBotService;
     }
 
     /**
@@ -52,7 +54,10 @@ class TestCommand extends Command
         // $cursor = $account->getCampaigns();
         // var_dump($cursor);
 
-        $this->facebookAdResultService->sync(now()->subDay(7), now()->subDay(1));
+        $bot = Bot::first();
+        var_dump($bot->toArray());
+
+        $this->lineBotService->getAudienceGroups($bot);
 
 
         // $account = Account::first();

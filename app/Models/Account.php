@@ -228,4 +228,8 @@ class Account extends Model
     public function getQueryParamsAttribute(){
         return "&utm_source=line&utm_medium=social&utm_campaign=bot_".$this->bot->query_label."&utm_content=".$this->senario->query_label."&code=".$this->senario->query_label."&bot_account_id=".$this->id;
     }
+
+    public function getQueryParamsOnlyAttribute(){
+        return "&utm_source=line&utm_medium=social&utm_campaign=bot_".$this->bot->query_label."&utm_content=".$this->senario->query_label."&bot_account_id=".$this->id;
+    }
 }
