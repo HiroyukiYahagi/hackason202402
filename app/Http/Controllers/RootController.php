@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\Models\Account;
+use App\Models\Thema;
+use App\Models\Usecase;
 
 class RootController extends Controller
 {
@@ -14,24 +15,11 @@ class RootController extends Controller
     }
 
     public function index(){
-        return view("index");
-    }
-
-    public function law(){
-        return view("law");
-    }
-
-    public function account(Request $request, $hash){
-        $account = Account::where("hash", $hash)->firstOrFail();
-        return view("account", [
-            "account" => $account
+        $themas = Thema::with(["usecases"])->get();
+        $totalPrice = Usecase::sum("price");
+        return view("index", [
+            "themas" => $themas, "totalPrice" => $totalPrice
         ]);
-    }
-
-    public function editAccount(Request $request, $hash){
-        $account = Account::where("hash", $hash)->firstOrFail();
-        $account->property_table = $request->input("property");
-        return back()->with("message", "情報を更新しました");
     }
 }
 

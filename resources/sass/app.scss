@@ -11,21 +11,90 @@
 // Import UIkit.
 @import "uikit/src/scss/uikit-theme.scss";
 
+.uk-text-white {
+  color: white;
+}
 
 .uk-form-label {
   font-weight: bold;
-}
-
-.uk-button.uk-button-primary:not([disabled]) {
-  border-radius: 4px;
-  border-bottom: 2px solid darken($global-primary-background, 10%);
-  border-right: 2px solid darken($global-primary-background, 10%);
 }
 
 .uk-button[disabled]{
   background-color: $global-inverse-color;
 }
 
+.uk-button {
+  font-weight: bold;
+  border-radius: 20px;
+
+  &.uk-button-large {
+    font-size: 1.05rem;
+    &.uk-button-primary {
+      border-radius: 30px;
+    }
+    &.uk-button-default {
+      border-radius: 30px;
+    }
+    &.uk-button-secondary {
+      border-radius: 30px;
+    }
+  }
+
+  &.uk-button-primary {
+    &:hover {
+      background-color: $global-secondary-background;
+    }
+  }
+  &.uk-button-default {
+    &:hover {
+      background-color: $global-secondary-background;
+      color: white;
+    }
+  }
+  &.uk-button-secondary {
+    &:hover {
+      background-color: $global-muted-background;
+      color: $global-secondary-background;
+    }
+  }
+  
+}
+
+.uk-image-wrapper {
+  position: relative;
+  overflow: hidden;
+
+  & > img, & > video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    font-family: 'object-fit: cover;';
+  }
+}
+
+
+
 body {
   letter-spacing: 0.15rem;
+  line-height: 2.2rem;
+}
+
+.uk-border-primary-right {
+      box-shadow: 1px 1px 8px $global-primary-background;
+}
+
+.uk-margin, .uk-margin-small, .uk-margin-medium, .uk-margin-large, .uk-margin-xlarge {
+  &:last-child {
+    margin-bottom: 0px !important;
+  }
+}
+
+.uk-input,
+.uk-select,
+.uk-textarea {
+  border-radius: 6px;
+}
+
+.uk-background-danger {
+  background-color: $global-danger-background;
 }

@@ -59,25 +59,6 @@ return [
             ]),
         ],
 
-        'coco_db' => [
-            'driver' => 'mysql',
-            'host' => env('COCO_HOST', ''),
-            'port' => env('COCO_PORT', ''),
-            'database' => env('COCO_DATABASE', 'database'),
-            'username' => env('COCO_USERNAME', 'name'),
-            'password' => env('COCO_PASSWORD', 'password'),
-            'unix_socket' => env('COCO_SOCKET', ''),
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => '',
-            'prefix_indexes' => true,
-            'strict' => true,
-            'engine' => null,
-            'options' => array_filter([
-                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
-            ]),
-        ],
-
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', '127.0.0.1'),

@@ -14,8 +14,8 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'admin',
-        'passwords' => 'admins',
+        'guard' => 'user',
+        'passwords' => 'users',
     ],
 
     /*
@@ -36,20 +36,20 @@ return [
     */
 
     'guards' => [
-        'admin' => [
+        'user' => [
             'driver' => 'session',
-            'provider' => 'admins',
+            'provider' => 'users',
+        ],
+
+        'shop' => [
+            'driver' => 'session',
+            'provider' => 'shops',
         ],
 
         'api' => [
             'driver' => 'token',
             'provider' => 'admins',
             'hash' => false,
-        ],
-
-        'partner' => [
-            'driver' => 'session',
-            'provider' => 'admins',
         ],
 
     ],
@@ -72,9 +72,13 @@ return [
     */
 
     'providers' => [
-        'admins' => [
+        'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Admin::class,
+            'model' => App\Models\User::class,
+        ],
+        'shops' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Shop::class,
         ],
     ],
 
@@ -94,8 +98,13 @@ return [
     */
 
     'passwords' => [
-        'admins' => [
-            'provider' => 'admins',
+        'users' => [
+            'provider' => 'users',
+            'table' => 'password_resets',
+            'expire' => 60,
+        ],
+        'shops' => [
+            'provider' => 'shops',
             'table' => 'password_resets',
             'expire' => 60,
         ]

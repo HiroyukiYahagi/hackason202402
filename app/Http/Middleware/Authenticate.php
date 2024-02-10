@@ -17,6 +17,6 @@ class Authenticate extends Middleware
 
     protected function redirectTo($request, $guards=[])
     {
-        return route('admin.login');
+        return route('root.index');
     }
 }

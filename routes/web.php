@@ -1,82 +1,51 @@
 <?php
 
 Route::get('/', "RootController@index")->name("root.index");
-Route::get('/law', "RootController@law")->name("root.law");
-
-Route::get('/accounts/{hash}', "RootController@account")->name("accounts.view");
-Route::post('/accounts/{hash}/edit', "RootController@editAccount")->name("accounts.edit");
 
 
-Route::namespace("Admin")->prefix('admin')->group( function() {
-  Route::get('/login', "AuthController@showLoginForm")->name("admin.login");
-  Route::post('/login', "AuthController@login");
-  Route::get('/logout', "AuthController@logout")->name("admin.logout");
+Route::namespace("Shop")->group( function(){
+  Route::prefix('/shop')->group( function() {
+    Route::get('/', "IndexController@index")->name("shop.index");
+    Route::get('/edit', "IndexController@edit")->name("shop.edit");
+    Route::post('/add', "IndexController@add")->name("shop.add");
+    Route::get('/logout', "IndexController@logout")->name("shop.logout");
+    Route::get('/login', "IndexController@login")->name("shop.login");
 
-  Route::get('/', "IndexController@index")->name("admin.index");
-  Route::post('/edit', "IndexController@edit")->name("admin.edit");
-
-
-  Route::get('/bots', "BotController@index")->name("admin.bots.index");
-  Route::post('/bots', "BotController@add")->name("admin.bots.add");
-
-  Route::prefix('bots/{bot}')->group( function() {
-    Route::get('/', "BotController@view")->name("admin.bots.view");
-    Route::get('/edit', "BotController@showEdit")->name("admin.bots.edit");
-    Route::post('/edit', "BotController@edit");
-    Route::post('/delete', "BotController@delete")->name("admin.bots.delete");
-
-    Route::post('/rich', "BotController@setRichMenu")->name("admin.bots.rich");
-
-    Route::post('/recalc', "BotController@recalc")->name("admin.bots.recalc");
-
-    Route::get('/senarios', "SenarioController@index")->name("admin.senarios.index");
-    Route::post('/senarios/add', "SenarioController@add")->name("admin.senarios.add");
-
-    Route::prefix('senarios/{senario}')->group( function() {
-      Route::get('/', "SenarioController@view")->name("admin.senarios.view");
-      Route::post('/edit', "SenarioController@edit")->name("admin.senarios.edit");
-      Route::post('/copy', "SenarioController@copy")->name("admin.senarios.copy");
-      Route::post('/delete', "SenarioController@delete")->name("admin.senarios.delete");
-
-      Route::get('/rules', "RuleController@index")->name("admin.rules.index");
-      Route::post('/rules/add', "RuleController@add")->name("admin.rules.add");
-      Route::prefix('rules/{rule}')->group( function() {
-        Route::get('/', "RuleController@view")->name("admin.rules.view");
-        Route::post('/copy', "RuleController@copy")->name("admin.rules.copy");
-        Route::post('/edit', "RuleController@edit")->name("admin.rules.edit");
-        Route::post('/delete', "RuleController@delete")->name("admin.rules.delete");
-        Route::post('/test', "RuleController@test")->name("admin.rules.test");
-
-        Route::post('/actions', "RuleController@actions")->name("admin.rules.actions");
-
-      });
-
-      Route::get('/accounts', "SenarioController@accounts")->name("admin.senarios.accounts");
+    Route::prefix('/petitions')->group( function() {
+      Route::get('/', "PetitionController@index")->name("shop.petitions.index");
+      Route::post('/add', "PetitionController@add")->name("shop.petitions.add");
+      Route::get('/{petition}', "PetitionController@view")->name("shop.petitions.view");
+      Route::post('/{petition}/receipts', "PetitionController@addReceipts")->name("shop.petitions.receipts");
     });
 
-    Route::prefix('accounts')->group( function() {
-      Route::get('/', "AccountController@index")->name("admin.accounts.index");
-      Route::get('/{account}', "AccountController@view")->name("admin.accounts.view");
-      Route::post('/{account}/edit', "AccountController@edit")->name("admin.accounts.edit");
-      Route::post('/{account}/property', "AccountController@property")->name("admin.accounts.property");
-      Route::post('/{account}/send', "AccountController@send")->name("admin.accounts.send");
+    Route::prefix('/results')->group( function() {
+      Route::post('/{result}', "PetitionController@updateResult")->name("shop.results.edit");
+    });
+    
+  });
+});
+
+
+Route::namespace("User")->group( function(){
+  Route::prefix('/user')->group( function() {
+    Route::get('/', "IndexController@index")->name("user.index");
+    Route::get('/edit', "IndexController@edit")->name("user.edit");
+    Route::post('/add', "IndexController@add")->name("user.add");
+    Route::get('/logout', "IndexController@logout")->name("user.logout");
+    Route::get('/login', "IndexController@login")->name("user.login");
+
+    Route::prefix('/donates')->group( function() {
+      Route::get('/', "DonateController@index")->name("user.donates.index");
+      Route::post('/add', "DonateController@add")->name("user.donates.add");
+      Route::get('/{donate}', "DonateController@view")->name("user.donates.view");
+      Route::post('/{donate}/vote', "DonateController@vote")->name("user.donates.vote");
+    });
+    
+    Route::prefix('/results')->group( function() {
+      Route::post('/{result}', "DonateController@updateResult")->name("user.results.edit");
+    });
+    Route::prefix('/votes')->group( function() {
+      Route::post('/{vote}', "DonateController@updateVotes")->name("user.votes.edit");
     });
   });
-
-  Route::prefix('assets')->group( function() {
-    Route::get('/', "AssetController@index")->name("admin.assets.index");
-    Route::post('/add', "AssetController@add")->name("admin.assets.view");
-    Route::post('/{asset}/delete', "AssetController@delete")->name("admin.assets.delete");
-  });
-
 });
-
-Route::prefix('donate')->group( function() {
-  Route::get('/thanks/{donate}', "DonateController@thanks")->name("donate.thanks");
-
-  Route::get('/{hash}', "DonateController@view")->name("donate.view");
-  Route::post('/{hash}', "DonateController@toConfirm");
-  Route::get('/{hash}/confirm', "DonateController@confirm")->name("donate.confirm");
-  Route::post('/{hash}/submit', "DonateController@submit")->name("donate.submit");
-});
-

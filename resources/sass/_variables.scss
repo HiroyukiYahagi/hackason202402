@@ -1,16 +1,17 @@
 //フォント
-$global-font-familyfont-family: "Yu Gothic Medium", "游ゴシック Medium", "Yu Gothic", "游ゴシック", YuGothic, メイリオ, Meiryo, arial;
+$global-font-family:  "游ゴシック体", YuGothic, "游ゴシック Medium", "Yu Gothic Medium", "游ゴシック", "Yu Gothic", "メイリオ", sans-serif;
+$global-heading-font-family: "游ゴシック体", YuGothic, "游ゴシック Medium", "Yu Gothic Medium", "游ゴシック", "Yu Gothic", "メイリオ", sans-serif;
 
 //背景色
 $global-background: #fff;
-$global-primary-background: #19B842;
-$global-secondary-background: #FC5040;
-$global-muted-background: #EFEFEF;
-$global-danger-background: #CF0000;
+$global-primary-background: #ACBD6F;
+$global-secondary-background: #4B1015;
+$global-muted-background: #F9F3E0;
+$global-danger-background: #99222B;
 
 //文字色
-$global-color: #646464;
-$global-emphasis-color: #1F1F1F;
+$global-color: #4B1015;
+$global-emphasis-color: #333333;
 
 $global-inverse-color: #F0F0F0;
 $inverse-global-color: #FFFFFF;
@@ -43,3 +44,10 @@ $global-xlarge-box-shadow: 0 28px 50px rgba(0,0,0,0.16);
 
 
 $button-default-border: $global-emphasis-color;
+
+$border-rounded-border-radius: 16px;
+
+$breakpoint-small: 769px;
+$breakpoint-medium: 769px;
+$breakpoint-large: 1200px;
+$breakpoint-xlarge: 1600px;
