@@ -49,13 +49,11 @@ class ThemeService
 
     $themas = Thema::get();
 
+    $all = null;
+
     foreach ( $themas as $thema ){
       if( $thema->keywords == null ){
-        if( !isset($hits[$thema->id]) ){
-          $hits[$thema->id] = 0;
-        }
-        $hits[$thema->id] += 1;
-        $totalScore += 1;
+        $all = $thema;
         continue; 
       }
       $list = explode(",", $thema->keywords);
@@ -69,6 +67,14 @@ class ThemeService
         }
       }
     }
+    if( $totalScore == 0 ){
+      if( !isset($hits[$all->id]) ){
+        $hits[$all->id] = 0;
+      }
+      $hits[$all->id] += 1;
+      $totalScore += 1;
+    }
+
     $cases = [];
     $currentPrice = 0;
     foreach( $hits as $themaId => $score ){
@@ -89,13 +95,11 @@ class ThemeService
 
     $themas = Thema::get();
 
+    $all = null;
+
     foreach ( $themas as $thema ){
       if( $thema->keywords == null ){
-        if( !isset($hits[$thema->id]) ){
-          $hits[$thema->id] = 0;
-        }
-        $hits[$thema->id] += 1;
-        $totalScore += 1;
+        $all = $thema;
         continue; 
       }
       $list = explode(",", $thema->keywords);
@@ -109,6 +113,14 @@ class ThemeService
         }
       }
     }
+    if( $totalScore == 0 ){
+      if( !isset($hits[$all->id]) ){
+        $hits[$all->id] = 0;
+      }
+      $hits[$all->id] += 1;
+      $totalScore += 1;
+    }
+    
     $cases = [];
     $currentPrice = 0;
     foreach( $hits as $themaId => $score ){

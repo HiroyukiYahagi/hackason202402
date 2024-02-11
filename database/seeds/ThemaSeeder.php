@@ -47,8 +47,10 @@ class ThemaSeeder extends Seeder
                 'keywords' => isset($data["keywords"]) ? implode($data["keywords"], ",") : null
             ]);
 
+            $r = rand(2,7);
+
             foreach( $users as $user ){
-                if( rand(0,10) >= 3 ){
+                if( rand(0,10) >= $r ){
                     $donate = $user->donates()->create([
                         'price' => rand(10000, 100000), 
                     ]);
@@ -59,8 +61,10 @@ class ThemaSeeder extends Seeder
                 }
             }
 
+            $r = rand(4,8);
+
             foreach( $shops as $shop ){
-                if( rand(0,10) >= 5 ){
+                if( rand(0,10) >= $r ){
                     $petition = $shop->petitions()->create([
                         'desired_price' => rand(100000, 400000), 
                     ]);
