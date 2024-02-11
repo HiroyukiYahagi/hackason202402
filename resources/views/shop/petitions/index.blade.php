@@ -19,7 +19,7 @@
           <tr>
             <td class="uk-text-bold uk-text-small">目標金額</td>
             <td>
-              ¥{{ $petition->desired_price }}
+              ¥{{ number_format($petition->desired_price) }}
             </td>
           </tr>
           <tr>
@@ -34,13 +34,36 @@
     <div class="uk-width-1-2">
       @foreach( $petition->affiliations as $affiliation )
       <div class="uk-margin">
-        <h5 class="uk-margin-small">{{ $affiliation->thema->title }}</h5>
+        <div class="uk-margin-small uk-grid-small uk-flex-middle" uk-grid>
+          <div class="uk-width-auto">
+            <div class="uk-thumbnail uk-image-wrapper uk-border-rounded">
+              <img uk-img data-src="{{ $affiliation->thema->image_url }}" />
+            </div>
+          </div>
+          <div class="uk-width-expand">
+            <h5>{{ $affiliation->thema->title }}</h5>
+          </div>
+        </div>
         <div class="uk-margin-small">
           <progress class="uk-progress uk-margin-small" value="{{ $affiliation->results->sum("price") }}" max="{{ $affiliation->price }}"></progress>
           <div class="uk-text-small uk-text-right">
-            最大{{ $affiliation->price }}円のうち現在{{ $affiliation->results->sum("price") }}円が利用可能です
+            最大{{ number_format($affiliation->price) }}円のうち現在{{ number_format($affiliation->results->sum("price")) }}円が利用可能です
           </div>
         </div>
+        @if( $affiliation->results->sum("price") > 0 )
+        <div class="uk-margin-small">
+          <h6 class="uk-margin-remove">支援者</h6>
+          <div class="uk-grid-small uk-flex-middle" uk-grid>
+            @foreach( $affiliation->results as $result )
+            @continue( $result->status == 0 )
+            <div>
+              <img style="width:40px;" uk-img data-src="{{ asset('images/icon.png') }}" />
+              <span class="uk-text-small">{{ $result->usecase->donate->user->nick_name }}</span>
+            </div>
+            @endforeach
+          </div>
+        </div>
+        @endif
       </div>
       @endforeach
       @if( $petition->usable_price > 0 )

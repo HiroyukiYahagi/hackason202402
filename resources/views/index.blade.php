@@ -21,7 +21,7 @@
 @section('content')
 
 <h2>
-  人気のテーマ
+  テーマ
 </h2>
 <div class="uk-grid-match" uk-grid>
   @foreach( $themas as $thema )

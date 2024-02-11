@@ -1,11 +1,18 @@
 <nav class="uk-width-1-1 uk-background-muted uk-box-shadow-small">
     <div class="uk-padding uk-background-danger">
-        <a class="uk-display-block uk-text-center">
+        <a class="uk-display-block uk-text-center" href="{{route('root.index')}}">
             <img class="uk-width-small" src="{{asset('images/logo_w.svg')}}" />
         </a>
-        <div class="uk-margin uk-text-white uk-text-small uk-text-center">
-            {{ auth("shop")->user()->shop_name }}<br/>
-            のマイページ
+        <div class="uk-margin uk-flex-center uk-flex-middle uk-grid-small" uk-grid>
+            <div class="uk-width-auto">
+                <img style="width:40px;" uk-img data-src="{{ asset('images/icon.png') }}" />
+            </div>
+            <div class="uk-width-auto">
+                <div class="uk-text-white uk-text-small">
+                    {{ auth("shop")->user()->shop_name }}<br/>
+                    のマイページ
+                </div>
+            </div>
         </div>
     </div>
     <div class="uk-padding-small">
@@ -19,11 +26,11 @@
                 受け取り履歴を見る
             </a>
         </div>
-        <div class="uk-margin">
+        <!-- <div class="uk-margin">
             <a class="uk-button uk-button-default uk-width-1-1" href="{{route('shop.edit')}}">
                 会員情報の変更
             </a>
-        </div>
+        </div> -->
         <div class="uk-margin">
             <a class="uk-button uk-button-default uk-width-1-1" href="{{route('root.index')}}">
                 トップページ
@@ -35,28 +42,28 @@
             </a>
         </div>
         <div class="uk-margin">
-            <a class="uk-button uk-button-link">
+            <a class="uk-button uk-button-link" href="{{route('root.other')}}">
                 利用規約
             </a>
         </div>
         <div class="uk-margin">
-            <a class="uk-button uk-button-link">
+            <a class="uk-button uk-button-link" href="{{route('root.other')}}">
                 よくあるご質問
             </a>
         </div>
         <div class="uk-margin">
-            <a class="uk-button uk-button-link">
+            <a class="uk-button uk-button-link" href="{{route('root.other')}}">
                 プライバシーポリシー
             </a>
         </div>
         <div class="uk-margin">
-            <a class="uk-button uk-button-link uk-margin-small-right uk-margin-small-left">
+            <a class="uk-button uk-button-link uk-margin-small-right uk-margin-small-left" href="{{route('root.other')}}">
                 <span uk-icon="twitter"></span>
             </a>
-            <a class="uk-button uk-button-link uk-margin-small-right uk-margin-small-left">
+            <a class="uk-button uk-button-link uk-margin-small-right uk-margin-small-left" href="{{route('root.other')}}">
                 <span uk-icon="facebook"></span>
             </a>
-            <a class="uk-button uk-button-link uk-margin-small-right uk-margin-small-left">
+            <a class="uk-button uk-button-link uk-margin-small-right uk-margin-small-left" href="{{route('root.other')}}">
                 <span uk-icon="instagram"></span>
             </a>
         </div>

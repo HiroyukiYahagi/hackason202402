@@ -19,7 +19,7 @@
           <tr>
             <td class="uk-text-bold uk-text-small">寄付金額</td>
             <td>
-              ¥ {{ $donate->price }}
+              ¥{{ number_format($donate->price) }}
             </td>
           </tr>
           <tr>
@@ -34,42 +34,76 @@
     <div class="uk-width-1-2">
       @foreach( $donate->usecases as $usecase )
       <div class="uk-margin">
-        <h5>{{ $usecase->thema->title }}</h5>
+        <div class="uk-margin-small uk-grid-small uk-flex-middle" uk-grid>
+          <div class="uk-width-auto">
+            <div class="uk-thumbnail uk-image-wrapper uk-border-rounded">
+              <img uk-img data-src="{{ $usecase->thema->image_url }}" />
+            </div>
+          </div>
+          <div class="uk-width-expand">
+            <h5>{{ $usecase->thema->title }}</h5>
+          </div>
+        </div>
         <div class="uk-margin-small">
           <progress class="uk-progress uk-margin-small" value="{{ $usecase->use_price }}" max="{{ $usecase->price }}"></progress>
           <div class="uk-text-small uk-text-right">
-            最大{{ $usecase->price }}円のうち現在{{ $usecase->results->sum("price") }}円が利用済みです
+            最大{{ number_format($usecase->price) }}円のうち現在{{ number_format($usecase->results->sum("price")) }}円が利用済みです
           </div>
         </div>
         @foreach( $usecase->results as $result )
         @if( $result->status == 1 )
         <div class="uk-margin-small uk-padding-small uk-background-muted uk-border-rounded">
-          <div class="uk-grid-small" uk-grid>
+          <div class="uk-grid-small uk-flex-middle" uk-grid>
+            <div class="uk-width-auto">
+              <img style="width:40px;" uk-img data-src="{{ asset('images/icon.png') }}" />
+            </div>
             <div class="uk-width-expand">
-              {{ $result->affiliation->petition->shop->shop_name }}に¥{{ $result->price }}の利用権利があります
+              {{ $result->affiliation->petition->shop->shop_name }}に¥{{ number_format($result->price) }}付与しました
             </div>
             <div class="uk-width-auto">
-              <a class="uk-button uk-button-small uk-button-default">
-                詳しく見る
+              <a class="uk-button uk-button-small uk-button-default" href="#result-modal_{{ $result->id }}" uk-toggle>
+                詳細
               </a>
+            </div>
+          </div>
+        </div>
+        <div id="result-modal_{{ $result->id }}" uk-modal="">
+          <div class="uk-modal-dialog uk-border-rounded uk-overflow-hidden">
+            <div class="uk-modal-header">
+              <h2 class="uk-modal-title">{{ $result->affiliation->petition->shop->shop_name }}について</h2>
+            </div>
+            <div class="uk-modal-body">
+              <p class="uk-text-small">
+                  {!! nl2br($result->affiliation->petition->description) !!}
+              </p>
+              <p class="uk-text-small">
+                  最大利用額 : ¥{{ number_format($result->affiliation->price) }}
+              </p>
             </div>
           </div>
         </div>
         @else
         <div class="uk-padding-small uk-background-muted uk-border-rounded">
-          <div class="uk-text-small uk-text-bold">
-            申請日: {{ $result->created_at->format("Y年m月d日") }}
-          </div>
-          <div class="uk-text-bold">
-            {{ $result->affiliation->petition->shop->shop_name }}
-            <div class="uk-text-small">
-              ¥{{ $result->affiliation->price }}
+          <div class="uk-grid-small uk-flex-middle" uk-grid>
+            <div class="uk-width-auto">
+              <img style="width:40px;" uk-img data-src="{{ asset('images/icon.png') }}" />
             </div>
-          </div>
-          <div class="uk-margin-small uk-text-right">
-            <a class="uk-button uk-button-small uk-button-default" href="#result-modal_{{ $result->id }}" uk-toggle>
-              詳細・利用承認
-            </a>
+            <div class="uk-width-expand">
+              <div class="uk-text-small uk-text-bold">
+                申請日: {{ $result->created_at->format("Y年m月d日") }}
+              </div>
+              <div class="uk-text-bold">
+                {{ $result->affiliation->petition->shop->shop_name }}
+                <div class="uk-text-small">
+                  ¥{{ number_format($result->affiliation->price) }}
+                </div>
+              </div>
+              <div class="uk-margin-small uk-text-right">
+                <a class="uk-button uk-button-small uk-button-default" href="#result-modal_{{ $result->id }}" uk-toggle>
+                  詳細・利用承認
+                </a>
+              </div>
+            </div>
           </div>
         </div>
         <div id="result-modal_{{ $result->id }}" uk-modal="">
@@ -83,10 +117,10 @@
                           {!! nl2br($result->affiliation->petition->description) !!}
                       </p>
                       <p class="uk-text-small">
-                          最大利用額 : ¥{{ $result->affiliation->price }}
+                          最大利用額 : ¥{{ number_format($result->affiliation->price) }}
                       </p>
                       <p class="uk-text-small">
-                          あなたが寄付できる額 : ¥{{ min( $result->affiliation->rest_price, $result->usecase->rest_price ) }}
+                          あなたが寄付できる額 : ¥{{ number_format(min( $result->affiliation->rest_price, $result->usecase->rest_price )) }}
                       </p>
                   </div>
                   <div class="uk-modal-footer">
@@ -135,8 +169,15 @@
         {{ $vote->created_at->format("Y年m月d日") }}
       </td>
       <td>
-        利用団体 : {{ $vote->receipt->petition->shop->shop_name }}<br/>
-        利用金額 : ¥{{ $vote->receipt->price }}<br/>
+        <div class="uk-grid-small uk-flex-middle" uk-grid>
+          <div class="uk-width-auto">
+            <img style="width:40px;" uk-img data-src="{{ asset('images/icon.png') }}" />
+          </div>
+          <div class="uk-width-expand">
+            {{ $vote->receipt->petition->shop->shop_name }}
+          </div>
+        </div>
+        利用金額 : ¥{{ number_format($vote->receipt->price) }}<br/>
         {!! nl2br($vote->receipt->description) !!}
       </td>
       <td>

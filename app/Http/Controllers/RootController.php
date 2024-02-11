@@ -15,10 +15,15 @@ class RootController extends Controller
     }
 
     public function index(){
-        $themas = Thema::with(["usecases"])->get();
+        $themas = Thema::with(["usecases", "affiliations"])->get();
         $totalPrice = Usecase::sum("price");
         return view("index", [
             "themas" => $themas, "totalPrice" => $totalPrice
+        ]);
+    }
+
+    public function other(){
+        return view("other", [
         ]);
     }
 }

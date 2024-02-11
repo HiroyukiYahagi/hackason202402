@@ -1,6 +1,7 @@
 <?php
 
 Route::get('/', "RootController@index")->name("root.index");
+Route::get('/other', "RootController@other")->name("root.other");
 
 
 Route::namespace("Shop")->group( function(){

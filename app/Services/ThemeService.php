@@ -50,6 +50,14 @@ class ThemeService
     $themas = Thema::get();
 
     foreach ( $themas as $thema ){
+      if( $thema->keywords == null ){
+        if( !isset($hits[$thema->id]) ){
+          $hits[$thema->id] = 0;
+        }
+        $hits[$thema->id] += 1;
+        $totalScore += 1;
+        continue; 
+      }
       $list = explode(",", $thema->keywords);
       foreach( $list as $keyword ){
         if( strpos($description, $keyword) !== false ){
@@ -82,6 +90,14 @@ class ThemeService
     $themas = Thema::get();
 
     foreach ( $themas as $thema ){
+      if( $thema->keywords == null ){
+        if( !isset($hits[$thema->id]) ){
+          $hits[$thema->id] = 0;
+        }
+        $hits[$thema->id] += 1;
+        $totalScore += 1;
+        continue; 
+      }
       $list = explode(",", $thema->keywords);
       foreach( $list as $keyword ){
         if( strpos($description, $keyword) !== false ){

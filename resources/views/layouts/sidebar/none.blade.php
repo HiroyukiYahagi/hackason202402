@@ -1,6 +1,6 @@
 <nav class="uk-width-1-1 uk-background-muted uk-box-shadow-small">
     <div class="uk-padding uk-background-primary">
-        <a class="uk-display-block uk-text-center">
+        <a class="uk-display-block uk-text-center" href="{{route('root.index')}}">
             <img class="uk-width-small" src="{{asset('images/logo_w.svg')}}" />
         </a>
         <div class="uk-margin uk-text-white uk-h3 uk-text-center">
@@ -24,28 +24,28 @@
             </a>
         </div>
         <div class="uk-margin">
-            <a class="uk-button uk-button-link">
+            <a class="uk-button uk-button-link" href="{{route('root.other')}}">
                 利用規約
             </a>
         </div>
         <div class="uk-margin">
-            <a class="uk-button uk-button-link">
+            <a class="uk-button uk-button-link" href="{{route('root.other')}}">
                 よくあるご質問
             </a>
         </div>
         <div class="uk-margin">
-            <a class="uk-button uk-button-link">
+            <a class="uk-button uk-button-link" href="{{route('root.other')}}">
                 プライバシーポリシー
             </a>
         </div>
         <div class="uk-margin">
-            <a class="uk-button uk-button-link uk-margin-small-right uk-margin-small-left">
+            <a class="uk-button uk-button-link uk-margin-small-right uk-margin-small-left" href="{{route('root.other')}}">
                 <span uk-icon="twitter"></span>
             </a>
-            <a class="uk-button uk-button-link uk-margin-small-right uk-margin-small-left">
+            <a class="uk-button uk-button-link uk-margin-small-right uk-margin-small-left" href="{{route('root.other')}}">
                 <span uk-icon="facebook"></span>
             </a>
-            <a class="uk-button uk-button-link uk-margin-small-right uk-margin-small-left">
+            <a class="uk-button uk-button-link uk-margin-small-right uk-margin-small-left" href="{{route('root.other')}}">
                 <span uk-icon="instagram"></span>
             </a>
         </div>

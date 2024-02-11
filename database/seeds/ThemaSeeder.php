@@ -44,7 +44,7 @@ class ThemaSeeder extends Seeder
             $thema = Thema::create([
                 'title' => $thema, 
                 "image_url" => $data["image"],
-                'keywords' => implode($data["keywords"], ",")
+                'keywords' => isset($data["keywords"]) ? implode($data["keywords"], ",") : null
             ]);
 
             foreach( $users as $user ){
